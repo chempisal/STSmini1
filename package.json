@@ -1,0 +1,36 @@
+{
+  "name": "krusmart-classroom-manager",
+  "version": "1.0.0",
+  "description": "ប្រព័ន្ធគ្រប់គ្រងថ្នាក់រៀន KruSmart Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.krusmart.schoolerp",
+    "productName": "ប្រព័ន្ធគ្រប់គ្រងសាលារៀន",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ប្រព័ន្ធគ្រប់គ្រងសាលារៀន"
+    }
+  }
+}

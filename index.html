@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KruSmart - ជំនួយការគ្រូបង្រៀន</title>
+  
+  <!-- Meta SEO tags -->
+  <meta name="description" content="ប្រព័ន្ធជំនួយការគ្រូបង្រៀនឌីជីថល KruSmart សម្រាប់គ្រប់គ្រងថ្នាក់រៀន វត្តមាន ពិន្ទុ និងកាលវិភាគសិក្សា នៅវិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ">
+  <meta name="keywords" content="KruSmart, PTEC, ប្រព័ន្ធគ្រប់គ្រងថ្នាក់រៀន, គ្រូបង្រៀន, វត្តមានសិស្ស, ពិន្ទុសិស្ស">
+  <meta name="author" content="Phnom Penh Teacher Education College">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="logo_ptec.svg">
+  
+  <!-- Google Fonts: Kantumruy Pro (Khmer) & Inter (Latin/Numbers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kantumruy+Pro:wght@300;400;500;600;700&family=Moul&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container">
+    
+    <!-- 1. LOGIN & REGISTER VIEW (MATCHES SCREENSHOT) -->
+    <div id="login-view" class="view-active">
+      <div class="login-card-wrapper">
+        <div class="login-card-content">
+          
+          <!-- Left Column (Branding & Logo) -->
+          <div class="login-left">
+            <div class="branding-header">
+              <div class="logo-box">
+                <img src="logo_ptec.svg" alt="PTEC Logo" class="ptec-logo-img">
+              </div>
+              <div class="logo-text">
+                <h1>វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ</h1>
+                <h2>Phnom Penh Teacher Education College</h2>
+              </div>
+            </div>
+            <div class="branding-body">
+              <div class="brand-title">KruSmart</div>
+              <div class="brand-subtitle">ប្រព័ន្ធគ្រប់គ្រងសាលារៀន និងជំនួយការគ្រូបង្រៀនឌីជីថល</div>
+            </div>
+          </div>
+          
+          <!-- Right Column (Authentication Form) -->
+          <div class="login-right">
+            <!-- Tabs -->
+            <div class="auth-tabs">
+              <button id="tab-login" class="tab-btn active" onclick="switchAuthTab('login')">🔑 ចូលគណនី</button>
+              <button id="tab-register" class="tab-btn" onclick="switchAuthTab('register')">✍️ បង្កើតថ្មី</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="form-login" class="auth-form active" onsubmit="handleLogin(event)">
+              <div class="form-group">
+                <label for="login-email">📧 ឈ្មោះគណនី ឬ អ៊ីមែល</label>
+                <input type="text" id="login-email" placeholder="ឧ. admin, teacher, principal..." required>
+              </div>
+              
+              <div class="form-group password-group">
+                <label for="login-password">🔒 ពាក្យសម្ងាត់</label>
+                <div class="password-input-wrapper">
+                  <input type="password" id="login-password" placeholder="........" required autocomplete="current-password">
+                  <button type="button" class="password-toggle" onclick="togglePasswordVisibility('login-password', this)">
+                    <span>👁️ បង្ហាញ</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="form-actions-row">
+                <a href="#" class="forgot-link" onclick="openModal('forgot-modal')">🤔 ភ្លេចពាក្យសម្ងាត់?</a>
+              </div>
+              
+              <button type="submit" class="btn-primary-blue">👉 ចូលគណនីប្រព័ន្ធ</button>
+              
+              <div class="premium-notice">
+                <a href="#" class="premium-link" onclick="openModal('premium-modal')">
+                  <span>💎 ជាវកញ្ចប់ពិសេស (Premium)</span>
+                </a>
+              </div>
+              
+              <div class="divider-or">
+                <span>ឬ</span>
+              </div>
+              
+              <button type="button" class="btn-google-login" onclick="handleGoogleLogin()">
+                <img src="logo_google.svg" alt="Google Logo" class="google-icon-img">
+                <span>🌐 ចូលគណនីជាមួយ Google</span>
+              </button>
+
+              <!-- Mock Credentials Helper Card -->
+              <div class="mock-credentials-box" style="margin-top: 15px; padding: 12px; background: rgba(30, 64, 175, 0.05); border: 1.5px dashed rgba(30, 64, 175, 0.2); border-radius: 12px; font-size: 11.5px; line-height: 1.5; color: var(--text-main);">
+                <strong style="color: #1e40af; font-family: var(--font-khmer-muol) !important; font-size: 12px; display: block; margin-bottom: 6px;">🔑 គណនីសាកល្បងប្រព័ន្ធ (Test Accounts)៖</strong>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 4px;">
+                  <div>• <strong>អភិបាល (Admin):</strong> ឈ្មោះ <code>admin</code> | ពាក្យសម្ងាត់ <code>admin123</code></div>
+                  <div>• <strong>នាយកសាលា (Principal):</strong> ឈ្មោះ <code>principal</code> | ពាក្យសម្ងាត់ <code>principal123</code></div>
+                  <div>• <strong>គ្រូបង្រៀន (Teacher):</strong> ឈ្មោះ <code>teacher</code> | ពាក្យសម្ងាត់ <code>teacher123</code></div>
+                  <div>• <strong>អាណាព្យាបាល (Parent):</strong> ឈ្មោះ <code>parent</code> | ពាក្យសម្ងាត់ <code>parent123</code></div>
+                  <div>• <strong>សិស្ស (Student):</strong> ឈ្មោះ <code>student</code> | ពាក្យសម្ងាត់ <code>student123</code></div>
+                </div>
+              </div>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="form-register" class="auth-form" onsubmit="handleRegister(event)">
+              <div class="form-group">
+                <label for="reg-name">👤 ឈ្មោះពេញ</label>
+                <input type="text" id="reg-name" placeholder="សុខ ដារ៉ា" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="reg-email">📧 អាសយដ្ឋានអ៊ីមែល</label>
+                <input type="email" id="reg-email" placeholder="name@ptec.edu.kh" required autocomplete="username">
+              </div>
+              
+              <div class="form-group password-group">
+                <label for="reg-password">🔒 ពាក្យសម្ងាត់</label>
+                <div class="password-input-wrapper">
+                  <input type="password" id="reg-password" placeholder="........" required autocomplete="new-password">
+                  <button type="button" class="password-toggle" onclick="togglePasswordVisibility('reg-password', this)">
+                    <span>👁️ បង្ហាញ</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="form-group checkbox-group">
+                <input type="checkbox" id="reg-terms" required>
+                <label for="reg-terms">🤝 ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌ និងគោលការណ៍ប្រព័ន្ធ</label>
+              </div>
+              
+              <button type="submit" class="btn-primary-blue">✅ បង្កើតគណនីថ្មី</button>
+              
+              <div class="divider-or">
+                <span>ឬ</span>
+              </div>
+              
+              <button type="button" class="btn-google-login" onclick="handleGoogleLogin()">
+                <img src="logo_google.svg" alt="Google Logo" class="google-icon-img">
+                <span>🌐 ចុះឈ្មោះជាមួយ Google</span>
+              </button>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <!-- 2. DASHBOARD VIEW (TEACHER PORTAL) -->
+    <div id="dashboard-view" class="view-hidden">
+      
+      <!-- Dashboard Layout -->
+      <div class="dashboard-wrapper">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <img src="logo_ptec.svg" alt="PTEC Logo" class="sidebar-logo">
+            <div class="sidebar-branding">
+              <h3>KruSmart</h3>
+              <span>ជំនួយការឌីជីថល</span>
+            </div>
+          </div>
+          
+          <div class="sidebar-user">
+            <div class="user-avatar-initials" id="user-avatar-bubble">KH</div>
+            <div class="user-info">
+              <h4 id="sidebar-user-name">លោកគ្រូ គឹម ហេង</h4>
+              <span id="sidebar-user-role">គ្រូបង្រៀនថ្នាក់ទី១២A</span>
+            </div>
+          </div>
+          
+          <nav class="sidebar-nav">
+            <ul>
+              <li class="menu-home"><a href="#" id="nav-home" class="nav-item active" onclick="switchDashboardView('home')"><span>🏠 ទិដ្ឋភាពទូទៅ</span></a></li>
+              <li class="menu-class role-item teacher-only"><a href="#" id="nav-class" class="nav-item" onclick="switchDashboardView('class')"><span>🏫 ថ្នាក់របស់ខ្ញុំ</span></a></li>
+              <li class="menu-students role-item teacher-only admin-only"><a href="#" id="nav-students" class="nav-item" onclick="switchDashboardView('students')"><span>👥 បញ្ជីឈ្មោះសិស្ស</span></a></li>
+              <li class="menu-attendance role-item teacher-only"><a href="#" id="nav-attendance" class="nav-item" onclick="switchDashboardView('attendance')"><span>📅 វត្តមានសិស្ស</span></a></li>
+              <li class="menu-subjects role-item teacher-only student-only"><a href="#" id="nav-subjects" class="nav-item" onclick="switchDashboardView('subjects')"><span>📚 មុខវិជ្ជាសិក្សា</span></a></li>
+              
+              <!-- Dropdown for Other Exam Tasks (Teacher only) -->
+              <li class="nav-item-dropdown-wrapper role-item teacher-only" style="list-style: none;">
+                <a href="#" id="nav-exam-tasks" class="nav-item" onclick="toggleExamTasksDropdown(event)">
+                  <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <span>📝 ការងារប្រឡងផ្សេងៗ</span>
+                    <span style="font-size: 8px;">▼</span>
+                  </span>
+                </a>
+                <ul id="exam-tasks-dropdown" class="sidebar-dropdown-menu" style="display: none; list-style: none; padding-left: 20px; background: rgba(0,0,0,0.02); border-radius: 8px; margin: 4px 0;">
+                  <li><a href="#" onclick="selectExamTask('តេស្តដើមឆ្នាំ')" style="display: block; padding: 8px 12px; font-size: 12.5px; color: var(--text-muted);">📝 តេស្តដើមឆ្នាំ</a></li>
+                  <li><a href="#" onclick="selectExamTask('តេស្តចុងឆ្នាំ')" style="display: block; padding: 8px 12px; font-size: 12.5px; color: var(--text-muted);">📝 តេស្តចុងឆ្នាំ</a></li>
+                  <li><a href="#" onclick="selectExamTask('ប្រឡងប្រចាំខែ')" style="display: block; padding: 8px 12px; font-size: 12.5px; color: var(--text-muted);">📅 ប្រឡងប្រចាំខែ</a></li>
+                  <li><a href="#" onclick="selectExamTask('ប្រឡងឆមាសទី១')" style="display: block; padding: 8px 12px; font-size: 12.5px; color: var(--text-muted);">🏆 ប្រឡងឆមាសទី១</a></li>
+                  <li><a href="#" onclick="selectExamTask('ប្រឡងឆមាសទី២')" style="display: block; padding: 8px 12px; font-size: 12.5px; color: var(--text-muted);">🏆 ប្រឡងឆមាសទី២</a></li>
+                </ul>
+              </li>
+              
+              <li class="menu-grades role-item teacher-only"><a href="#" id="nav-grades" class="nav-item" onclick="switchDashboardView('grades')"><span>📊 គណនាការប្រឡង</span></a></li>
+              <li class="menu-timetable role-item teacher-only student-only"><a href="#" id="nav-timetable" class="nav-item" onclick="switchDashboardView('timetable')"><span>📅 កាលវិភាគសិក្សា</span></a></li>
+              <li class="menu-stats role-item teacher-only principal-only admin-only"><a href="#" id="nav-stats" class="nav-item" onclick="switchDashboardView('stats')"><span>📈 ស្ថិតិថ្នាក់រៀន</span></a></li>
+              
+              <!-- AI Teacher Assistant (Teacher only) -->
+              <li class="menu-ai-assistant role-item teacher-only"><a href="#" id="nav-ai-assistant" class="nav-item" onclick="switchDashboardView('ai-assistant')"><span>🤖 ជំនួយការគ្រូ AI</span></a></li>
+              
+              <!-- Principal Dashboards -->
+              <li class="menu-inspection role-item principal-only admin-only"><a href="#" id="nav-inspection" class="nav-item" onclick="switchDashboardView('inspection')"><span>🔍 ការចុះពិនិត្យថ្នាក់</span></a></li>
+              <li class="menu-kpi role-item principal-only admin-only"><a href="#" id="nav-kpi" class="nav-item" onclick="switchDashboardView('kpi')"><span>🏫 សូចនាករសាលារៀន</span></a></li>
+              
+              <!-- Admin Dashboards -->
+              <li class="menu-id-card role-item admin-only"><a href="#" id="nav-id-card" class="nav-item" onclick="switchDashboardView('id-card')"><span>💳 បង្កើតកាតសិស្ស</span></a></li>
+              <li class="menu-backup role-item admin-only"><a href="#" id="nav-backup" class="nav-item" onclick="switchDashboardView('backup')"><span>💾 ទិន្នន័យបម្រុង</span></a></li>
+              
+              <!-- Parent Comm -->
+              <li class="menu-parent-comm role-item parent-only teacher-only"><a href="#" id="nav-parent-comm" class="nav-item" onclick="switchDashboardView('parent-comm')"><span>💬 ទំនាក់ទំនងអាណាព្យាបាល</span></a></li>
+              
+              <!-- Shared -->
+              <li class="menu-profile"><a href="#" id="nav-profile" class="nav-item" onclick="switchDashboardView('profile')"><span>👤 ព័ត៌មានផ្ទាល់ខ្លួន</span></a></li>
+              <li class="menu-settings"><a href="#" id="nav-settings" class="nav-item" onclick="switchDashboardView('settings')"><span>⚙️ ការកំណត់ប្រព័ន្ធ</span></a></li>
+            </ul>
+          </nav>
+          
+          <div class="sidebar-footer">
+            <button class="btn-logout" onclick="handleLogoutAction()">
+              <span>🚪 ចាកចេញពីប្រព័ន្ធ</span>
+            </button>
+          </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+          
+          <!-- Top Bar -->
+          <header class="top-bar">
+            <div class="page-title-area">
+              <h2 id="view-title">ទិដ្ឋភាពទូទៅ</h2>
+              <p class="current-date" id="calendar-date-display">ថ្ងៃអាទិត្យ ទី២៨ ខែមិថុនា ឆ្នាំ២០២៦</p>
+            </div>
+            
+            <div class="top-actions">
+              <!-- Search bar -->
+              <div class="top-search">
+                <input type="text" id="global-search" placeholder="ស្វែងរកសិស្ស រឺទិន្នន័យ..." oninput="handleGlobalSearch(this.value)">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              
+              <!-- Quick Premium Button -->
+              <button class="btn-premium-badge" onclick="openModal('premium-modal')">
+                <svg class="diamond-icon-small" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 9l10 13 10-13L12 2zm0 3.8L18.4 9 12 17.2 5.6 9 12 5.8z"/></svg>
+                <span>Premium</span>
+              </button>
+              
+              <!-- Profile details trigger -->
+              <div class="profile-pill" onclick="switchDashboardView('settings')">
+                <span class="pill-name">លោកគ្រូ ហេង</span>
+                <div class="pill-avatar">KH</div>
+              </div>
+            </div>
+          </header>
+          
+          <!-- DYNAMIC SUB-VIEWS CONTENT -->
+          <div class="scroll-content">
+            
+            <!-- 2.0 View: My Class Management -->
+            <section id="view-class" class="sub-view">
+              <!-- Class Creation Form (Shown if class doesn't exist) -->
+              <div id="class-creation-panel" class="panel-card" style="max-width: 650px; margin: 20px auto; padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-card);">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 24px;">🏫</span>
+                  <h3 style="font-size: 16px; font-weight: 700; color: #1e3a8a;">បង្កើតថ្នាក់រៀនថ្មី (Create New Class)</h3>
+                </div>
+                <form id="form-create-class" onsubmit="handleCreateClass(event)" style="display: flex; flex-direction: column; gap: 18px;">
+                  <div class="form-group">
+                    <label for="class-name-input">ឈ្មោះថ្នាក់រៀន (Class Name)</label>
+                    <input type="text" id="class-name-input" placeholder="ឧ. ថ្នាក់ទី១២A, ថ្នាក់ទី៧B..." required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="class-year-input">ឆ្នាំសិក្សា (Academic Year)</label>
+                    <input type="text" id="class-year-input" placeholder="ឧ. ២០២៥-២០២៦" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="class-school-name">ឈ្មោះសាលារៀន (School Name)</label>
+                    <input type="text" id="class-school-name" value="វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ (PTEC)" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="class-level-select">កម្រិតសិក្សា (Education Level)</label>
+                    <select id="class-level-select" required>
+                      <option value="primary">សម្រាប់បឋមសិក្សា (ថ្នាក់ទី ១ ដល់ ថ្នាក់ទី ៦)</option>
+                      <option value="lower_secondary">សម្រាប់អនុវិទ្យាល័យ (ថ្នាក់ទី ៧ ដល់ ថ្នាក់ទី ៩)</option>
+                      <option value="upper_secondary" selected>សម្រាប់វិទ្យាល័យ (ថ្នាក់ទី ១០ ដល់ ថ្នាក់ទី ១២)</option>
+                      <option value="primary_lower">សម្រាប់បឋមសិក្សា & អនុវិទ្យាល័យ (ថ្នាក់ទី ១ ដល់ ថ្នាក់ទី ៩)</option>
+                      <option value="lower_upper">សម្រាប់អនុវិទ្យាល័យ & វិទ្យាល័យ (ថ្នាក់ទី ៧ ដល់ ថ្នាក់ទី ១២)</option>
+                    </select>
+                  </div>
+                  
+                  <button type="submit" class="btn-primary-blue" style="padding: 14px;">បង្កើតថ្នាក់រៀន និងចាប់ផ្តើម</button>
+                </form>
+              </div>
+
+              <!-- Class Details Info Panel (Shown if class exists) -->
+              <div id="class-info-panel" class="panel-card" style="display: none; padding: 28px;">
+                <div class="panel-header flex-between" style="border-bottom: 2px solid var(--border-color); padding-bottom: 16px; margin-bottom: 20px;">
+                  <div>
+                    <h3 id="info-class-title" style="font-size: 26px; font-weight: 700; color: #1e3a8a;">ថ្នាក់ទី ១២A</h3>
+                    <p id="info-class-school" class="text-muted" style="font-size: 13.5px; font-weight: 500;">វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ (PTEC)</p>
+                  </div>
+                  <button class="btn-danger" onclick="confirmDeleteClass()" style="padding: 10px 18px; font-size: 13px; border-radius: 8px;">លុបថ្នាក់នេះចោល (Delete Class)</button>
+                </div>
+                
+                <div class="settings-grid">
+                  <!-- Info metrics -->
+                  <div class="panel-card" style="min-height: auto; padding: 0; border: none; box-shadow: none; background: none;">
+                    <h4 style="margin-bottom: 16px; font-size: 15px; font-weight: 600;">📊 ព័ត៌មានថ្នាក់រៀនសង្ខេប (Class Information)</h4>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div class="settings-option-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>ឆ្នាំសិក្សា (Academic Year)</span>
+                        <strong id="info-class-year" style="font-family: var(--font-latin); color: var(--primary-color);">២០២៥-២០២៦</strong>
+                      </div>
+                      <div class="settings-option-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>កម្រិតសិក្សា (Education Level)</span>
+                        <strong id="info-class-level">វិទ្យាល័យ (ថ្នាក់ទី ១០-១២)</strong>
+                      </div>
+                      <div class="settings-option-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>គ្រូបង្រៀន (Teacher Name)</span>
+                        <strong id="info-class-teacher">លោកគ្រូ គឹម ហេង</strong>
+                      </div>
+                      <div class="settings-option-item" style="padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <span>ទីតាំងរក្សាទុកទិន្នន័យ (Storage Path)</span>
+                        <span id="info-class-storage-path" style="font-family: var(--font-latin); font-size: 11.5px; color: var(--success-color); font-weight: 600; text-align: right; word-break: break-all;">D:\ប្រព័ន្ធគ្រប់គ្រងថ្នាក់រៀន ឆ្នាំសិក្សា២០២៥-២០២៦</span>
+                      </div>
+                    </div>
+                    
+                    <div style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap;">
+                      <button class="btn-action-primary" onclick="redirectToStudentEntry()" id="btn-info-students-in-class" style="padding: 12px 20px; font-size: 13.5px; border-radius: 8px;">
+                        <span>👥 ព័ត៌មានសិស្សក្នុងថ្នាក់ (Students in Class)</span>
+                      </button>
+                      <button class="btn-google-login" onclick="switchDashboardView('attendance')" style="margin: 0; padding: 12px 20px; font-size: 13.5px; border-radius: 8px; font-weight: 600;">
+                        <span>📅 កត់ត្រាវត្តមានសិស្ស</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Subjects in Class list -->
+                  <div class="panel-card" style="min-height: auto; padding: 0; border: none; box-shadow: none; background: none;">
+                    <div class="flex-between" style="margin-bottom: 16px;">
+                      <h4 style="font-size: 15px; font-weight: 600;">📚 មុខវិជ្ជាសិក្សាក្នុងថ្នាក់ (Subjects)</h4>
+                      <button class="btn-text-only" onclick="openAddSubjectModal()">+ បន្ថែមមុខវិជ្ជា</button>
+                    </div>
+                    <ul id="class-subjects-list" style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+                      <!-- Populated dynamically -->
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.1 View: Home / Dashboard Summary -->
+            <section id="view-home" class="sub-view active">
+              
+              <!-- Stats Cards Grid -->
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-icon icon-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                  </div>
+                  <div class="stat-info">
+                    <span class="stat-label">សិស្សសរុប</span>
+                    <h3 id="stat-total-students">៣២ នាក់</h3>
+                    <span class="stat-diff trend-up">↑ ២ នាក់ខែនេះ</span>
+                  </div>
+                </div>
+                
+                <div class="stat-card">
+                  <div class="stat-icon icon-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                  </div>
+                  <div class="stat-info">
+                    <span class="stat-label">វត្តមានថ្ងៃនេះ</span>
+                    <h3 id="stat-attendance-rate">៩៦.៨%</h3>
+                    <span class="stat-diff trend-up">↑ ១.២% ពីម្សិលមិញ</span>
+                  </div>
+                </div>
+                
+                <div class="stat-card">
+                  <div class="stat-icon icon-orange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  </div>
+                  <div class="stat-info">
+                    <span class="stat-label">មធ្យមភាគពិន្ទុថ្នាក់</span>
+                    <h3 id="stat-average-grade">៧៨.៥ / ១០០</h3>
+                    <span class="stat-diff trend-up">↑ ៤.៥ ពិន្ទុ (ប្រឡងឆមាស)</span>
+                  </div>
+                </div>
+                
+                <div class="stat-card">
+                  <div class="stat-icon icon-purple">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  </div>
+                  <div class="stat-info">
+                    <span class="stat-label">ម៉ោងបង្រៀនសរុប</span>
+                    <h3 id="stat-hours-taught">១៨ ម៉ោង/សប្តាហ៍</h3>
+                    <span class="stat-diff text-muted">តាមកាលវិភាគផ្លូវការ</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Charts Section -->
+              <div class="dashboard-charts-row">
+                <!-- Attendance Chart -->
+                <div class="chart-card flex-2">
+                  <div class="chart-header">
+                    <h4>របាយការណ៍វត្តមានប្រចាំសប្តាហ៍ (គិតជា %)</h4>
+                    <span class="text-muted">វត្តមានគិតជាភាគរយពីថ្ងៃចន្ទ ដល់សៅរ៍</span>
+                  </div>
+                  <div class="chart-container">
+                    <svg id="weekly-attendance-chart" viewBox="0 0 600 220" width="100%" height="100%">
+                      <!-- Grid lines -->
+                      <line x1="50" y1="30" x2="570" y2="30" stroke="#e2e8f0" stroke-dasharray="4" />
+                      <line x1="50" y1="80" x2="570" y2="80" stroke="#e2e8f0" stroke-dasharray="4" />
+                      <line x1="50" y1="130" x2="570" y2="130" stroke="#e2e8f0" stroke-dasharray="4" />
+                      <line x1="50" y1="180" x2="570" y2="180" stroke="#cbd5e1" stroke-width="1.5" />
+                      
+                      <!-- Y axis labels -->
+                      <text x="40" y="35" text-anchor="end" font-size="12" fill="#64748b" font-family="Inter">100%</text>
+                      <text x="40" y="85" text-anchor="end" font-size="12" fill="#64748b" font-family="Inter">90%</text>
+                      <text x="40" y="135" text-anchor="end" font-size="12" fill="#64748b" font-family="Inter">80%</text>
+                      <text x="40" y="185" text-anchor="end" font-size="12" fill="#64748b" font-family="Inter">70%</text>
+                      
+                      <!-- X axis labels (Khmer days) -->
+                      <text x="90" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">ចន្ទ</text>
+                      <text x="180" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">អង្គារ</text>
+                      <text x="270" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">ពុធ</text>
+                      <text x="360" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">ព្រហស្បតិ៍</text>
+                      <text x="450" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">សុក្រ</text>
+                      <text x="540" y="205" text-anchor="middle" font-size="12" fill="#475569" font-family="Kantumruy Pro">សៅរ៍</text>
+                      
+                      <!-- Polyline path connection -->
+                      <polyline fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                        points="90,45 180,60 270,35 360,50 450,55 540,80" />
+                      
+                      <!-- Data points and pulses -->
+                      <circle cx="90" cy="45" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                      <circle cx="180" cy="60" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                      <circle cx="270" cy="35" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                      <circle cx="360" cy="50" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                      <circle cx="450" cy="55" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+                      <circle cx="540" cy="80" r="5" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+
+                      <!-- Tooltips / values above points -->
+                      <text x="90" y="32" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">97%</text>
+                      <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">94%</text>
+                      <text x="270" y="22" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">99%</text>
+                      <text x="360" y="38" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">96%</text>
+                      <text x="450" y="43" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">95%</text>
+                      <text x="540" y="68" text-anchor="middle" font-size="11" font-weight="600" fill="#1e3a8a" font-family="Inter">90%</text>
+                    </svg>
+                  </div>
+                </div>
+                
+                <!-- Grade Distribution Chart -->
+                <div class="chart-card flex-1">
+                  <div class="chart-header">
+                    <h4>កម្រិតលទ្ធផលសិក្សាសរុប</h4>
+                    <span class="text-muted">សមាមាត្រនិទ្ទេសរបស់សិស្ស</span>
+                  </div>
+                  <div class="radial-container">
+                    <svg viewBox="0 0 200 200" width="100%" height="100%">
+                      <!-- Background circle -->
+                      <circle cx="100" cy="100" r="80" fill="none" stroke="#f1f5f9" stroke-width="15"/>
+                      
+                      <!-- Segment 1: Grade A (20% -> 50.24 circumference) -->
+                      <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="15"
+                              stroke-dasharray="100.48 402.12" stroke-dashoffset="125.6" transform="rotate(-90 100 100)"/>
+                              
+                      <!-- Segment 2: Grade B (40% -> 100.48 circumference) -->
+                      <circle cx="100" cy="100" r="80" fill="none" stroke="#3b82f6" stroke-width="15"
+                              stroke-dasharray="200.96 301.64" stroke-dashoffset="226.08" transform="rotate(-90 100 100)"/>
+
+                      <!-- Segment 3: Grade C/Other (40%) -->
+                      <circle cx="100" cy="100" r="80" fill="none" stroke="#f59e0b" stroke-width="15"
+                              stroke-dasharray="200.96 301.64" stroke-dashoffset="427.04" transform="rotate(-90 100 100)"/>
+                              
+                      <!-- Centered text -->
+                      <text x="100" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#64748b" font-family="Kantumruy Pro">មធ្យមភាគថ្នាក់</text>
+                      <text x="100" y="125" text-anchor="middle" font-size="28" font-weight="bold" fill="#1e293b" font-family="Inter">B+</text>
+                    </svg>
+                    
+                    <div class="chart-legends">
+                      <div class="legend-item"><span class="bullet bg-green"></span> <span>និទ្ទេសល្អប្រសើរ (A) 20%</span></div>
+                      <div class="legend-item"><span class="bullet bg-blue"></span> <span>និទ្ទេសល្អបង្គួរ (B) 40%</span></div>
+                      <div class="legend-item"><span class="bullet bg-orange"></span> <span>និទ្ទេសមធ្យម (C) 40%</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Two Columns: Recent Activities & Quick Tasks -->
+              <div class="dashboard-rows-grid">
+                <!-- Activities Panel -->
+                <div class="panel-card">
+                  <div class="panel-header">
+                    <h3>សកម្មភាពថ្មីៗក្នុងថ្នាក់</h3>
+                    <button class="btn-text-only" onclick="switchDashboardView('students')">មើលទាំងអស់</button>
+                  </div>
+                  <ul class="activity-list" id="activity-list-container">
+                    <!-- Activities populated dynamically by JS -->
+                  </ul>
+                </div>
+                
+                <!-- Quick Tasks / To Do -->
+                <div class="panel-card">
+                  <div class="panel-header">
+                    <h3>ការងារត្រូវធ្វើ និងរំលឹកសតិ</h3>
+                    <button class="btn-text-only" onclick="addNewTodoItem()">+ បន្ថែមថ្មី</button>
+                  </div>
+                  <ul class="todo-list" id="todo-list-container">
+                    <!-- Todos populated dynamically by JS -->
+                  </ul>
+                </div>
+              </div>
+              
+            </section>
+            
+            <!-- 2.2 View: Students Directory -->
+            <section id="view-students" class="sub-view">
+              
+              <div class="view-actions-bar">
+                <div class="search-and-filters" style="gap: 8px; display: flex; align-items: center;">
+                  <input type="text" id="student-search-input" placeholder="ស្វែងរកឈ្មោះ ឬអត្តលេខសិស្ស..." oninput="filterStudentsList(this.value)">
+                  <select id="student-gender-filter" onchange="filterStudentsListByGender(this.value)">
+                    <option value="all">ភេទទាំងអស់</option>
+                    <option value="ប្រុស">ប្រុស (Male)</option>
+                    <option value="ស្រី">ស្រី (Female)</option>
+                  </select>
+                  <!-- Add Currently Studying Status Indicator -->
+                  <div class="status-pill-group">
+                    <button class="btn-att-option active" style="padding: 8px 12px; font-size: 12px; border-radius: 8px;" id="btn-status-studying">កំពុងសិក្សា</button>
+                  </div>
+                  <!-- Columns Dropdown -->
+                  <div class="columns-picker-wrapper" style="position: relative;">
+                    <button class="btn-att-option" style="padding: 8px 12px; font-size: 12px; border-radius: 8px;" onclick="toggleColumnsPicker()">ជួរឈរ ▾</button>
+                    <div id="columns-picker-dropdown" class="columns-picker-dropdown" style="display: none; position: absolute; top: 38px; right: 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 100; padding: 10px; width: 180px;">
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked disabled> អត្តលេខ</label>
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked disabled> រូបថត</label>
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked disabled> ឈ្មោះសិស្ស</label>
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked id="col-toggle-gender" onchange="toggleTableColumn(3, this.checked)"> ភេទ</label>
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked id="col-toggle-email" onchange="toggleTableColumn(4, this.checked)"> អ៊ីមែល</label>
+                      <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 6px;"><input type="checkbox" checked id="col-toggle-phone" onchange="toggleTableColumn(5, this.checked)"> ទូរស័ព្ទអាណាព្យាបាល</label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn-google-login" onclick="triggerExcelImport()" style="margin: 0; padding: 10px 16px; font-size: 13px; border-radius: 8px;">
+                    <span>📤 នាំចូល Excel</span>
+                  </button>
+                  <button class="btn-google-login" onclick="triggerExcelExport()" style="margin: 0; padding: 10px 16px; font-size: 13px; border-radius: 8px;">
+                    <span>📥 នាំចេញ Excel</span>
+                  </button>
+                  <button class="btn-action-primary" onclick="openStudentModal('add')" style="padding: 10px 16px; font-size: 13px; border-radius: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>បន្ថែមសិស្សថ្មី</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Students Directory Table Card -->
+              <div class="table-card">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 80px;">អត្តលេខ</th>
+                      <th>រូបថត</th>
+                      <th>ឈ្មោះសិស្ស (Name)</th>
+                      <th style="width: 100px;">ភេទ</th>
+                      <th>អ៊ីមែល (Email)</th>
+                      <th>លេខទូរស័ព្ទអាណាព្យាបាល</th>
+                      <th style="width: 120px; text-align: center;">សកម្មភាព</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-table-body">
+                    <!-- Dynamic Student Rows -->
+                  </tbody>
+                </table>
+              </div>
+              
+            </section>
+            
+            <!-- 2.3 View: Attendance Tracker -->
+            <section id="view-attendance" class="sub-view">
+              
+              <div class="view-actions-bar flex-between">
+                <div class="attendance-date-select">
+                  <label for="attendance-date">កាលបរិច្ឆេទ៖ </label>
+                  <input type="date" id="attendance-date" onchange="handleAttendanceDateChange(this.value)">
+                </div>
+                
+                <div class="attendance-summary-pills">
+                  <span class="att-pill pill-present">វត្តមាន: <strong id="att-summary-present">0</strong></span>
+                  <span class="att-pill pill-late">យឺត: <strong id="att-summary-late">0</strong></span>
+                  <span class="att-pill pill-absent">អវត្តមាន: <strong id="att-summary-absent">0</strong></span>
+                </div>
+                
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn-google-login" onclick="triggerExcelAttendanceImport()" style="margin: 0; padding: 10px 16px; font-size: 13px; border-radius: 8px;">
+                    <span>📤 អាប់ឡូតវត្តមាន Excel</span>
+                  </button>
+                  <button class="btn-google-login" onclick="downloadAttendanceExcelTemplate()" style="margin: 0; padding: 10px 16px; font-size: 13px; border-radius: 8px; color: var(--secondary-color); border-color: var(--secondary-color);">
+                    <span>📥 ទាញយកគំរូ Excel</span>
+                  </button>
+                  <button class="btn-action-primary" onclick="saveAttendanceRecord()" style="padding: 10px 16px; font-size: 13px; border-radius: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <span>រក្សាទុកវត្តមាន</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Attendance Table Card -->
+              <div class="table-card">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px;">អត្តលេខ</th>
+                      <th>ឈ្មោះសិស្ស</th>
+                      <th style="width: 120px;">ភេទ</th>
+                      <th style="text-align: center;">ស្ថានភាពវត្តមាន (Attendance Status)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendance-table-body">
+                    <!-- Dynamic Attendance Rows -->
+                  </tbody>
+                </table>
+              </div>
+              
+            </section>
+            
+            <!-- 2.4 View: Grade Book -->
+            <section id="view-grades" class="sub-view">
+              
+              <!-- Subject Management bar in Grading view -->
+              <div class="panel-card" style="padding: 16px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); margin-bottom: -8px;">
+                <div class="flex-between" style="flex-wrap: wrap; gap: 12px;">
+                  <h4 style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px;">📚 មុខវិជ្ជាក្នុងថ្នាក់ (Subjects List)</h4>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <input type="text" id="new-subject-name-input" placeholder="ឈ្មោះមុខវិជ្ជាថ្មី..." style="padding: 6px 12px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; width: 180px;">
+                    <button class="btn-action-primary" onclick="addNewSubjectFromGrades()" style="padding: 6px 12px; font-size: 12.5px; border-radius: 6px;">+ បន្ថែម (Add)</button>
+                  </div>
+                </div>
+                <div id="subject-manage-tags-container" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                  <!-- Subject Tags with delete cross will load here -->
+                </div>
+              </div>
+
+              <div class="view-actions-bar">
+                <div class="search-and-filters">
+                  <label for="grade-month-select">ការប្រឡងប្រចាំ៖ </label>
+                  <select id="grade-month-select" onchange="loadGrades()">
+                    <option value="តុលា">តុលា (October)</option>
+                    <option value="វិច្ឆិកា">វិច្ឆិកា (November)</option>
+                    <option value="ធ្នូ">ធ្នូ (December)</option>
+                    <option value="មករា">មករា (January)</option>
+                    <option value="កុម្ភៈ">កុម្ភៈ (February)</option>
+                    <option value="មីនា">មីនា (March)</option>
+                    <option value="មេសា">មេសា (April)</option>
+                    <option value="ឧសភា" selected>ឧសភា (May)</option>
+                    <option value="មិថុនា">មិថុនា (June)</option>
+                  </select>
+                  
+                  <label for="grade-subject-select">មុខវិជ្ជា៖ </label>
+                  <select id="grade-subject-select" onchange="loadGrades()">
+                    <option value="គណិតវិទ្យា" selected>គណិតវិទ្យា (Math)</option>
+                    <option value="ភាសាខ្មែរ">ភាសាខ្មែរ (Khmer)</option>
+                    <option value="រូបវិទ្យា">រូបវិទ្យា (Physics)</option>
+                    <option value="គីមីវិទ្យា">គីមីវិទ្យា (Chemistry)</option>
+                    <option value="អង់គ្លេស">ភាសាអង់គ្លេស (English)</option>
+                  </select>
+                </div>
+                
+                <button class="btn-action-primary" onclick="openBulkGradeModal()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  <span>បញ្ចូលពិន្ទុរហ័ស</span>
+                </button>
+              </div>
+              
+              <!-- Grades Table Card -->
+              <div class="table-card">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 80px;">អត្តលេខ</th>
+                      <th>ឈ្មោះសិស្ស</th>
+                      <th style="width: 100px;">ភេទ</th>
+                      <th style="width: 120px; text-align: right;">វត្តមាន/កិច្ចការផ្ទះ (10%)</th>
+                      <th style="width: 120px; text-align: right;">ប្រឡងប្រចាំសប្តាហ៍ (20%)</th>
+                      <th style="width: 120px; text-align: right;">ប្រឡងប្រចាំខែ (70%)</th>
+                      <th style="width: 120px; text-align: right;">ពិន្ទុរហូត (សរុប)</th>
+                      <th style="width: 100px; text-align: center;">និទ្ទេស</th>
+                      <th style="width: 80px; text-align: center;">ចំណាត់ថ្នាក់</th>
+                      <th style="width: 100px; text-align: center;">សកម្មភាព</th>
+                    </tr>
+                  </thead>
+                  <tbody id="grade-table-body">
+                    <!-- Dynamic Grade Rows -->
+                  </tbody>
+                </table>
+              </div>
+              
+            </section>
+            
+            <!-- 2.5 View: Timetable Scheduler -->
+            <section id="view-timetable" class="sub-view">
+              
+              <div class="view-actions-bar flex-between">
+                <div>
+                  <h4 class="text-muted">កាលវិភាគបង្រៀនប្រចាំសប្តាហ៍របស់គ្រូ</h4>
+                </div>
+                <button class="btn-action-primary" onclick="openTimetableModal()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>បន្ថែមម៉ោងសិក្សា</span>
+                </button>
+              </div>
+              
+              <!-- Timetable Matrix Grid -->
+              <div class="timetable-card">
+                <div class="timetable-grid">
+                  <!-- Header: Days -->
+                  <div class="timetable-cell header-cell">ម៉ោងសិក្សា</div>
+                  <div class="timetable-cell header-cell">ចន្ទ (Mon)</div>
+                  <div class="timetable-cell header-cell">អង្គារ (Tue)</div>
+                  <div class="timetable-cell header-cell">ពុធ (Wed)</div>
+                  <div class="timetable-cell header-cell">ព្រហស្បតិ៍ (Thu)</div>
+                  <div class="timetable-cell header-cell">សុក្រ (Fri)</div>
+                  <div class="timetable-cell header-cell">សៅរ៍ (Sat)</div>
+                  
+                  <!-- Time Slots and Daily cells (Generated and controlled by JS) -->
+                  <!-- Slot 1: 07:00 - 08:30 -->
+                  <div class="timetable-cell time-cell">07:00 - 08:30</div>
+                  <div class="timetable-cell schedule-slot" data-day="Mon" data-time="07:00 - 08:30" id="slot-Mon-1"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Tue" data-time="07:00 - 08:30" id="slot-Tue-1"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Wed" data-time="07:00 - 08:30" id="slot-Wed-1"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Thu" data-time="07:00 - 08:30" id="slot-Thu-1"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Fri" data-time="07:00 - 08:30" id="slot-Fri-1"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Sat" data-time="07:00 - 08:30" id="slot-Sat-1"></div>
+
+                  <!-- Slot 2: 08:45 - 10:15 -->
+                  <div class="timetable-cell time-cell">08:45 - 10:15</div>
+                  <div class="timetable-cell schedule-slot" data-day="Mon" data-time="08:45 - 10:15" id="slot-Mon-2"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Tue" data-time="08:45 - 10:15" id="slot-Tue-2"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Wed" data-time="08:45 - 10:15" id="slot-Wed-2"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Thu" data-time="08:45 - 10:15" id="slot-Thu-2"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Fri" data-time="08:45 - 10:15" id="slot-Fri-2"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Sat" data-time="08:45 - 10:15" id="slot-Sat-2"></div>
+
+                  <!-- Break: 10:15 - 10:30 -->
+                  <div class="timetable-cell time-cell break-cell">10:15 - 10:30</div>
+                  <div class="timetable-cell break-label-cell" style="grid-column: span 6;">ម៉ោងសម្រាកលំហែ (Recess Break)</div>
+
+                  <!-- Slot 3: 10:30 - 12:00 -->
+                  <div class="timetable-cell time-cell">10:30 - 12:00</div>
+                  <div class="timetable-cell schedule-slot" data-day="Mon" data-time="10:30 - 12:00" id="slot-Mon-3"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Tue" data-time="10:30 - 12:00" id="slot-Tue-3"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Wed" data-time="10:30 - 12:00" id="slot-Wed-3"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Thu" data-time="10:30 - 12:00" id="slot-Thu-3"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Fri" data-time="10:30 - 12:00" id="slot-Fri-3"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Sat" data-time="10:30 - 12:00" id="slot-Sat-3"></div>
+
+                  <!-- Noon Break -->
+                  <div class="timetable-cell time-cell break-cell">12:00 - 13:30</div>
+                  <div class="timetable-cell break-label-cell" style="grid-column: span 6;">សម្រាកអាហារថ្ងៃត្រង់ (Lunch Break)</div>
+
+                  <!-- Slot 4: 13:30 - 15:00 -->
+                  <div class="timetable-cell time-cell">13:30 - 15:00</div>
+                  <div class="timetable-cell schedule-slot" data-day="Mon" data-time="13:30 - 15:00" id="slot-Mon-4"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Tue" data-time="13:30 - 15:00" id="slot-Tue-4"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Wed" data-time="13:30 - 15:00" id="slot-Wed-4"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Thu" data-time="13:30 - 15:00" id="slot-Thu-4"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Fri" data-time="13:30 - 15:00" id="slot-Fri-4"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Sat" data-time="13:30 - 15:00" id="slot-Sat-4"></div>
+
+                  <!-- Slot 5: 15:15 - 16:45 -->
+                  <div class="timetable-cell time-cell">15:15 - 16:45</div>
+                  <div class="timetable-cell schedule-slot" data-day="Mon" data-time="15:15 - 16:45" id="slot-Mon-5"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Tue" data-time="15:15 - 16:45" id="slot-Tue-5"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Wed" data-time="15:15 - 16:45" id="slot-Wed-5"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Thu" data-time="15:15 - 16:45" id="slot-Thu-5"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Fri" data-time="15:15 - 16:45" id="slot-Fri-5"></div>
+                  <div class="timetable-cell schedule-slot" data-day="Sat" data-time="15:15 - 16:45" id="slot-Sat-5"></div>
+                </div>
+              </div>
+              
+            </section>
+            
+            <!-- 2.6 View: App Settings -->
+            <section id="view-settings" class="sub-view">
+              
+              <div class="settings-grid">
+                
+                <!-- Left panel: Profile Info -->
+                <div class="panel-card">
+                  <div class="panel-header">
+                    <h3>ព័ត៌មានផ្ទាល់ខ្លួនគ្រូ</h3>
+                  </div>
+                  <form id="settings-profile-form" onsubmit="saveProfileSettings(event)">
+                    <div class="form-group">
+                      <label for="set-teacher-name">ឈ្មោះគ្រូបង្រៀន (Teacher Name)</label>
+                      <input type="text" id="set-teacher-name" value="លោកគ្រូ គឹម ហេង" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="set-teacher-school">គ្រឹះស្ថានសិក្សា (School)</label>
+                      <input type="text" id="set-teacher-school" value="វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ (PTEC)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="set-teacher-class">ថ្នាក់ទទួលបន្ទុក (Class In Charge)</label>
+                      <input type="text" id="set-teacher-class" value="ថ្នាក់ទី១២A" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="set-teacher-email">អាសយដ្ឋានអ៊ីមែល (Email)</label>
+                      <input type="email" id="set-teacher-email" value="teacher@ptec.edu.kh" readonly disabled>
+                      <small class="text-muted">អ៊ីមែលគណនីមិនអាចផ្លាស់ប្តូរបានទេ</small>
+                    </div>
+                    
+                    <button type="submit" class="btn-action-primary">រក្សាទុកការផ្លាស់ប្តូរ</button>
+                  </form>
+                </div>
+                
+                <!-- Right panel: System Preferences -->
+                <div class="panel-card">
+                  <div class="panel-header">
+                    <h3>ចំណូលចិត្តប្រព័ន្ធ (App Preferences)</h3>
+                  </div>
+                  
+                  <div class="settings-option-item">
+                    <div class="option-details">
+                      <h4>មុខងាររចនាផ្ទៃងងឹត (Dark Mode)</h4>
+                      <p class="text-muted">បើក/បិទ ពណ៌រចនាប្រព័ន្ធងងឹត ដើម្បីកាត់បន្ថយការចុកភ្នែក</p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode(this.checked)">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  
+                  <hr class="settings-divider">
+                  
+                  <div class="settings-option-item">
+                    <div class="option-details">
+                      <h4>ភាសាប្រព័ន្ធ (Language)</h4>
+                      <p class="text-muted">ជ្រើសរើសភាសាសម្រាប់ការបង្ហាញក្នុងកម្មវិធី</p>
+                    </div>
+                    <select class="settings-select" id="lang-select" onchange="changeLanguageSetting(this.value)">
+                      <option value="km" selected>ភាសាខ្មែរ (Khmer)</option>
+                      <option value="en">English (អង់គ្លេស)</option>
+                    </select>
+                  </div>
+
+                  <hr class="settings-divider">
+
+                  <div class="settings-option-item">
+                    <div class="option-details">
+                      <h4>ការជូនដំណឹងជាសំឡេង (Sound Effects)</h4>
+                      <p class="text-muted">លាន់សំឡេងនៅពេលរក្សាទុកទិន្នន័យបានជោគជ័យ</p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="sound-toggle" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <hr class="settings-divider">
+
+                  <!-- Google Sheets Sync Configuration -->
+                  <div class="settings-option-item" style="flex-direction: column; align-items: stretch; gap: 12px;">
+                    <div class="option-details">
+                      <h4>🔄 តំណភ្ជាប់ Google Sheets (Google Sheet Sync)</h4>
+                      <p class="text-muted">បញ្ចូលតំណភ្ជាប់ Google Apps Script Web App URL ដើម្បីធ្វើសមកាលកម្មទិន្នន័យទៅកាន់ Google Sheets របស់អ្នកដោយស្វ័យប្រវត្តិ។</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <input type="url" id="settings-google-sheet-url" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; padding: 10px 14px; border: 1.5px solid var(--border-color); border-radius: 8px; outline: none; background-color: var(--bg-input); color: var(--text-main); font-family: var(--font-latin);">
+                      <button type="button" class="btn-action-primary" onclick="manualSyncToGoogleSheets()" style="padding: 10px 16px; border-radius: 8px; font-size: 13px;">សាកល្បង Sync ឥឡូវនេះ</button>
+                    </div>
+                    <div style="background: rgba(37, 99, 235, 0.04); border: 1px dashed rgba(37, 99, 235, 0.2); padding: 12px; border-radius: 8px; font-size: 12px;">
+                      <strong style="color: var(--primary-color);">💡 របៀបដំឡើង៖</strong>
+                      <ol style="margin-left: 20px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; line-height: 1.4;">
+                        <li>បង្កើត Google Sheet ថ្មីមួយ និងចូលទៅកាន់ <strong>Extensions ➔ Apps Script</strong></li>
+                        <li>ចម្លងកូដ Apps Script ពីឯកសារគម្រោង ឬ <a href="#" onclick="openModal('apps-script-modal'); return false;" style="text-decoration: underline; color: var(--primary-color);">ចុចទីនេះដើម្បីចម្លងកូដគំរូ</a></li>
+                        <li>ចុចលើប៊ូតុង <strong>Deploy ➔ New Deployment</strong></li>
+                        <li>ជ្រើសរើសប្រភេទជា <strong>Web App</strong>, កំណត់ការចូលប្រើប្រាស់ទៅជា <strong>Anyone</strong> រួចចុច Deploy</li>
+                        <li>ចម្លងតំណភ្ជាប់ (Web App URL) មកដាក់ក្នុងប្រអប់ខាងលើនេះជាការស្រេច។</li>
+                      </ol>
+                    </div>
+                  </div>
+                  
+                  <hr class="settings-divider">
+                  
+                  <div class="settings-option-item">
+                    <div class="option-details">
+                      <h4>កំណត់ទិន្នន័យឡើងវិញ (Reset Data)</h4>
+                      <p class="text-muted" style="color: var(--danger-color);">លុបចោលទិន្នន័យសិស្ស វត្តមាន និងពិន្ទុទាំងអស់ពីប្រព័ន្ធ</p>
+                    </div>
+                    <button class="btn-danger" onclick="confirmResetSystemData()">កំណត់ឡើងវិញ</button>
+                  </div>
+                </div>
+                
+              </div>
+              
+            </section>
+            
+            <!-- 2.7 View: Subjects Management -->
+            <section id="view-subjects" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header flex-between" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">📚 មុខវិជ្ជាសិក្សាទាំងអស់ (Subjects List)</h3>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="text" id="subject-list-add-input" placeholder="ឈ្មោះមុខវិជ្ជា..." style="padding: 8px 12px; border: 1.5px solid var(--border-color); border-radius: 8px; outline: none;">
+                    <button class="btn-action-primary" id="btn-add-subject-primary" onclick="addSubjectFromMainList()" style="padding: 8px 16px; border-radius: 8px;">+ បន្ថែម (Add)</button>
+                  </div>
+                </div>
+                
+                <div class="table-card">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 120px;">លេខលំដាប់</th>
+                        <th>ឈ្មោះមុខវិជ្ជាសិក្សា</th>
+                        <th style="width: 150px; text-align: center;">សកម្មភាព</th>
+                      </tr>
+                    </thead>
+                    <tbody id="subject-list-table-body">
+                      <!-- Dynamically loaded list of subjects -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+            
+            <!-- 2.8 View: Teacher Profile Form -->
+            <section id="view-profile" class="sub-view">
+              <div class="settings-grid">
+                <div class="panel-card" style="padding: 28px;">
+                  <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">👤 បំពេញព័ត៌មានផ្ទាល់ខ្លួនគ្រូ (Teacher Profile)</h3>
+                  </div>
+                  <form id="profile-edit-form" onsubmit="handleProfileEditSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="form-group">
+                      <label for="prof-name">ឈ្មោះពេញគ្រូបង្រៀន (Full Name)</label>
+                      <input type="text" id="prof-name" placeholder="លោកគ្រូ គឹម ហេង" required>
+                    </div>
+                    
+                    <div class="form-row-two">
+                      <div class="form-group">
+                        <label for="prof-title">តួនាទី / ឋានៈ (Position/Title)</label>
+                        <input type="text" id="prof-title" placeholder="គ្រូបង្រៀនថ្នាក់ទី១២A" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="prof-phone">លេខទូរស័ព្ទ (Phone Number)</label>
+                        <input type="text" id="prof-phone" placeholder="012 345 678" required>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="prof-school">គ្រឹះស្ថានសិក្សា (School Name)</label>
+                      <input type="text" id="prof-school" placeholder="វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ (PTEC)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="prof-spec">ឯកទេសបង្រៀន (Teaching Specialization)</label>
+                      <input type="text" id="prof-spec" placeholder="គណិតវិទ្យា និង រូបវិទ្យា">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary-blue" style="padding: 12px; margin-top: 10px;">រក្សាទុកព័ត៌មាន Profile</button>
+                  </form>
+                </div>
+                
+                <div class="panel-card" style="padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+                  <div class="user-avatar-initials" id="prof-avatar-big" style="width: 120px; height: 120px; font-size: 40px; box-shadow: var(--shadow-lg);">KH</div>
+                  <div>
+                    <h4 id="prof-display-name" style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">លោកគ្រូ គឹម ហេង</h4>
+                    <p id="prof-display-role" class="text-muted" style="font-size: 13px;">គ្រូបង្រៀនថ្នាក់ទី១២A</p>
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-muted); background: var(--bg-hover); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                    ទិន្នន័យគ្រូ និងសិស្សត្រូវបានរក្សាទុកដោយសុវត្ថិភាពនៅក្នុងកុំព្យូទ័ររបស់អ្នក។
+                  </div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- 2.9 View: Class Statistics (3D Graphs & Sorting) -->
+            <section id="view-stats" class="sub-view">
+              <div class="dashboard-charts-row">
+                <!-- 3D Bar Chart Panel -->
+                <div class="chart-card flex-1">
+                  <div class="chart-header">
+                    <h4>📊 ការវិភាគថ្នាក់រៀន (Classroom 3D Bar Chart)</h4>
+                    <span class="text-muted">សមាមាត្រវត្តមាន និងកម្រិតលទ្ធផលសិក្សាសរុប</span>
+                  </div>
+                  <!-- SVG representation of 3D bars -->
+                  <div style="height: 240px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px; background: linear-gradient(180deg, var(--bg-hover), var(--bg-card)); border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);">
+                    <!-- 3D Bar 1: Present -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                      <span style="font-size: 11px; font-weight: bold; font-family: var(--font-latin);" id="3d-bar-val-present">94.5%</span>
+                      <svg width="40" height="150" viewBox="0 0 40 150">
+                        <defs>
+                          <linearGradient id="bar-front-green" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#10b981"/>
+                            <stop offset="100%" stop-color="#059669"/>
+                          </linearGradient>
+                          <linearGradient id="bar-side-green" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#059669"/>
+                            <stop offset="100%" stop-color="#047857"/>
+                          </linearGradient>
+                        </defs>
+                        <!-- 3D Top surface -->
+                        <polygon points="0,35 15,20 40,20 25,35" fill="#34d399" />
+                        <!-- 3D Side surface -->
+                        <polygon points="25,35 40,20 40,150 25,150" fill="url(#bar-side-green)" />
+                        <!-- 3D Front surface -->
+                        <rect x="0" y="35" width="25" height="115" fill="url(#bar-front-green)" />
+                      </svg>
+                      <span style="font-size: 12px; font-weight: 600;">វត្តមាន</span>
+                    </div>
+
+                    <!-- 3D Bar 2: Absent -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                      <span style="font-size: 11px; font-weight: bold; font-family: var(--font-latin);" id="3d-bar-val-absent">5.5%</span>
+                      <svg width="40" height="150" viewBox="0 0 40 150">
+                        <defs>
+                          <linearGradient id="bar-front-red" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#ef4444"/>
+                            <stop offset="100%" stop-color="#dc2626"/>
+                          </linearGradient>
+                          <linearGradient id="bar-side-red" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#dc2626"/>
+                            <stop offset="100%" stop-color="#b91c1c"/>
+                          </linearGradient>
+                        </defs>
+                        <!-- 3D Top surface -->
+                        <polygon points="0,115 15,100 40,100 25,115" fill="#f87171" />
+                        <!-- 3D Side surface -->
+                        <polygon points="25,115 40,100 40,150 25,150" fill="url(#bar-side-red)" />
+                        <!-- 3D Front surface -->
+                        <rect x="0" y="115" width="25" height="35" fill="url(#bar-front-red)" />
+                      </svg>
+                      <span style="font-size: 12px; font-weight: 600;">អវត្តមាន</span>
+                    </div>
+
+                    <!-- 3D Bar 3: Pass -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                      <span style="font-size: 11px; font-weight: bold; font-family: var(--font-latin);" id="3d-bar-val-pass">85%</span>
+                      <svg width="40" height="150" viewBox="0 0 40 150">
+                        <defs>
+                          <linearGradient id="bar-front-blue" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#3b82f6"/>
+                            <stop offset="100%" stop-color="#2563eb"/>
+                          </linearGradient>
+                          <linearGradient id="bar-side-blue" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#2563eb"/>
+                            <stop offset="100%" stop-color="#1d4ed8"/>
+                          </linearGradient>
+                        </defs>
+                        <!-- 3D Top surface -->
+                        <polygon points="0,55 15,40 40,40 25,55" fill="#60a5fa" />
+                        <!-- 3D Side surface -->
+                        <polygon points="25,55 40,40 40,150 25,150" fill="url(#bar-side-blue)" />
+                        <!-- 3D Front surface -->
+                        <rect x="0" y="55" width="25" height="95" fill="url(#bar-front-blue)" />
+                      </svg>
+                      <span style="font-size: 12px; font-weight: 600;">ប្រឡងជាប់</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 3D Pie Chart Panel -->
+                <div class="chart-card flex-1">
+                  <div class="chart-header">
+                    <h4>💎 វិភាគនិទ្ទេសថ្នាក់រៀន (3D Pie Graph)</h4>
+                    <span class="text-muted">ភាគរយនិទ្ទេសសរុបប្រចាំឆ្នាំ</span>
+                  </div>
+                  <!-- SVG representation of 3D pie -->
+                  <div style="display: flex; align-items: center; justify-content: center; height: 240px; background: linear-gradient(180deg, var(--bg-hover), var(--bg-card)); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <svg viewBox="0 0 200 120" width="80%" height="80%">
+                      <defs>
+                        <!-- 3D base shadow -->
+                        <ellipse id="base" cx="100" cy="70" rx="70" ry="35" fill="rgba(0,0,0,0.15)" />
+                      </defs>
+                      <use href="#base" />
+                      <!-- Drawing isometric 3D pie sectors -->
+                      <!-- Segment A (Green) with 3D depth side -->
+                      <path d="M 100 60 L 160 55 A 70 30 0 0 1 100 90 Z" fill="#10b981" stroke="#ffffff" stroke-width="1"/>
+                      <path d="M 100 90 A 70 30 0 0 0 160 55 L 160 65 A 70 30 0 0 1 100 100 Z" fill="#047857" />
+                      
+                      <!-- Segment B (Blue) -->
+                      <path d="M 100 60 L 100 90 A 70 30 0 0 1 40 55 Z" fill="#3b82f6" stroke="#ffffff" stroke-width="1"/>
+                      <path d="M 40 55 A 70 30 0 0 0 100 90 L 100 100 A 70 30 0 0 1 40 65 Z" fill="#1d4ed8" />
+                      
+                      <!-- Segment C (Orange) -->
+                      <path d="M 100 60 L 40 55 A 70 30 0 0 1 160 55 Z" fill="#f59e0b" stroke="#ffffff" stroke-width="1"/>
+                      <path d="M 160 55 A 70 30 0 0 0 40 55 L 40 65 A 70 30 0 0 1 160 65 Z" fill="#b45309" />
+                      
+                      <!-- Centered labels -->
+                      <text x="100" y="40" text-anchor="middle" font-size="9" font-weight="bold" fill="#ffffff" font-family="Inter">C (40%)</text>
+                      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#ffffff" font-family="Inter">B (40%)</text>
+                      <text x="130" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#ffffff" font-family="Inter">A (20%)</text>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Student Average Grade Performance Sorting table -->
+              <div class="table-card">
+                <div class="panel-header" style="padding: 16px 20px; border-bottom: 1.5px solid var(--border-color);">
+                  <h3 style="font-size: 15px; font-weight: 600;">📊 វិភាគមធ្យមភាគមុខវិជ្ជាសិក្សាសម្រាប់សិស្សម្នាក់ៗ (ពីខ្លាំង ទៅ ខ្សោយ)</h3>
+                </div>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 80px;">ចំណាត់ថ្នាក់</th>
+                      <th>ឈ្មោះសិស្ស</th>
+                      <th style="width: 100px;">ភេទ</th>
+                      <th style="text-align: right;">មធ្យមភាគពិន្ទុសរុប (Average Score)</th>
+                      <th style="width: 120px; text-align: center;">និទ្ទេសរួម (Grade)</th>
+                      <th>ការវាយតម្លៃលទ្ធផល</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stats-ranking-table-body">
+                    <!-- Loaded dynamically from app.js, sorted from strongest to weakest -->
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            
+            <!-- 2.11 View: Student ID Card Generator -->
+            <section id="view-id-card" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">💳 បង្កើតកាតសម្គាល់ខ្លួនសិស្ស (Student ID Card Generator)</h3>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;">
+                  <!-- Card Customization Form (Left Column) -->
+                  <div class="panel-card" style="padding: 20px; min-height: auto; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 16px; font-size: 14.5px; font-weight: 600;">⚙️ កំណត់ព័ត៌មានកាតសិស្ស</h4>
+                    <form id="id-card-form" style="display: flex; flex-direction: column; gap: 14px;">
+                      <div class="form-group">
+                        <label>👤 ជ្រើសរើសសិស្សក្នុងថ្នាក់</label>
+                        <select id="card-student-select" onchange="autoFillCardDetails(this.value)" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                          <!-- Populated dynamically -->
+                        </select>
+                      </div>
+                      
+                      <div class="form-row-two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                          <label>ឈ្មោះភាសាខ្មែរ</label>
+                          <input type="text" id="card-name-kh" placeholder="សុខ ដារ៉ា" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                          <label>ឈ្មោះឡាតាំង (English)</label>
+                          <input type="text" id="card-name-en" placeholder="SOK DARA" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                      </div>
+                      
+                      <div class="form-row-two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                          <label>ភេទ</label>
+                          <select id="card-gender" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                            <option value="ប្រុស">ប្រុស</option>
+                            <option value="ស្រី">ស្រី</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>លេខអត្តលេខសិស្ស</label>
+                          <input type="text" id="card-student-id" placeholder="PTEC001" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                      </div>
+
+                      <div class="form-row-two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                          <label>ថ្នាក់ទី</label>
+                          <input type="text" id="card-class" placeholder="ថ្នាក់ទី១២A" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                          <label>ឆ្នាំសិក្សា</label>
+                          <input type="text" id="card-year" placeholder="២០២៥-២០២៦" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                      </div>
+
+                      <div class="form-row-two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                          <label>ថ្ងៃខែឆ្នាំកំណើត</label>
+                          <input type="text" id="card-dob" placeholder="១២ វិច្ឆិកា ២០០៨" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                        <div class="form-group">
+                          <label>កាលបរិច្ឆេទផុតកំណត់</label>
+                          <input type="text" id="card-expiry" placeholder="៣១ សីហា ២០២៦" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label>🖼️ រូបថតសិស្ស (4x6)</label>
+                        <input type="file" id="card-photo-input" accept="image/*" onchange="loadCardStudentPhoto(event)" style="width: 100%;">
+                      </div>
+
+                      <div class="form-group">
+                        <label>🎨 រចនាបថ និងពណ៌កាត</label>
+                        <select id="card-theme-color" onchange="changeCardTheme(this.value)" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                          <option value="#1e40af" selected>Classic Blue (ខៀវបុរាណ)</option>
+                          <option value="#b45309">Premium Gold (មាសប្រណិត)</option>
+                          <option value="#047857">Forest Green (បៃតងចាស់)</option>
+                          <option value="#9333ea">Royal Purple (ស្វាយរាជវាំង)</option>
+                          <option value="#1e293b">Slate Gray (ប្រផេះស្ងប់ស្ងាត់)</option>
+                        </select>
+                      </div>
+                      
+                      <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <button type="button" class="btn-action-primary" onclick="generateStudentCardPNG()" style="flex: 1; padding: 12px;">📥 ទាញយកកាត (PNG)</button>
+                        <button type="button" class="btn-google-login" onclick="printStudentCard()" style="flex: 1; padding: 12px; margin:0;">🖨️ បោះពុម្ពកាត (Print)</button>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <!-- Card Live Preview (Right Column) -->
+                  <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                    <h4 style="font-size: 14.5px; font-weight: 600;">👁️ ផ្ទាំងបង្ហាញកាតសាកល្បង (Live Preview)</h4>
+                    
+                    <!-- Live Card Container (Front & Back) -->
+                    <div class="id-card-display-container" style="display: flex; flex-direction: column; gap: 20px;">
+                      <!-- FRONT SIDE -->
+                      <div id="id-card-front" class="id-card-side" style="width: 337px; height: 212px; background: #ffffff; border-radius: 12px; border: 4px solid #1e40af; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; padding: 12px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div class="id-card-bg-header" style="position: absolute; top: 0; left: 0; right: 0; height: 42px; background: #1e40af; z-index: 1;"></div>
+                        
+                        <div style="display: flex; align-items: center; gap: 6px; z-index: 2; color: #ffffff; height: 32px;">
+                          <img src="logo_ptec.svg" style="width: 26px; height: 26px;" alt="Logo">
+                          <div style="display: flex; flex-direction: column; justify-content: center;">
+                            <span style="font-size: 7.5px; font-weight: bold; font-family: var(--font-khmer-muol) !important; line-height: 1.2;">វិទ្យាស្ថានគរុកោសល្យរាជធានីភ្នំពេញ</span>
+                            <span style="font-size: 6px; font-family: var(--font-latin); font-weight: 600;">Phnom Penh Teacher Education College</span>
+                          </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 15px; z-index: 2; flex: 1; align-items: center;">
+                          <div id="card-preview-photo-box" style="width: 76px; height: 102px; border: 1.5px solid #1e40af; border-radius: 4px; overflow: hidden; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                            <span style="font-size: 24px;">👤</span>
+                          </div>
+                          
+                          <div style="display: flex; flex-direction: column; gap: 1px; font-size: 9px; flex: 1; color: #0f172a; line-height: 1.4;">
+                            <div style="font-size: 10px; font-weight: bold; color: #1e40af; font-family: var(--font-khmer-muol) !important; border-bottom: 1px solid #e2e8f0; padding-bottom: 2px; margin-bottom: 2px;" id="card-preview-title">ប័ណ្ណសម្គាល់ខ្លួនសិស្ស</div>
+                            <div><strong>ឈ្មោះ៖</strong> <span id="card-preview-name-kh">សុខ ដារ៉ា</span></div>
+                            <div style="font-family: var(--font-latin); font-size: 8px;"><strong>Name:</strong> <span id="card-preview-name-en">SOK DARA</span></div>
+                            <div><strong>ភេទ៖</strong> <span id="card-preview-gender">ប្រុស</span> &nbsp;&nbsp;&nbsp;<strong>ថ្នាក់៖</strong> <span id="card-preview-class">ថ្នាក់ទី១២A</span></div>
+                            <div><strong>អត្តលេខ៖</strong> <span id="card-preview-id" style="font-family: var(--font-latin); font-weight: bold;">PTEC001</span></div>
+                            <div><strong>ឆ្នាំសិក្សា៖</strong> <span id="card-preview-year" style="font-family: var(--font-latin);">២០២៥-២០២៦</span></div>
+                          </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; height: 35px; border-top: 1px dashed #cbd5e1; padding-top: 2px; font-size: 7.5px; color: #475569;">
+                          <div>
+                            <strong>ថ្ងៃកំណើត៖</strong> <span id="card-preview-dob" style="font-family: var(--font-latin);">១២ វិច្ឆិកា ២០០៨</span><br>
+                            <strong>ផុតកំណត់៖</strong> <span id="card-preview-expiry" style="font-family: var(--font-latin);">៣១ សីហា ២០២៦</span>
+                          </div>
+                          
+                          <div style="display: flex; flex-direction: column; align-items: center; position: relative;">
+                            <div style="position: absolute; top: -14px; right: 2px; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.05); display: flex; align-items: center; justify-content: center; font-size: 4px; color: rgba(239, 68, 68, 0.6); font-weight: bold; transform: rotate(-15deg); pointer-events: none;">PTEC Seal</div>
+                            <div style="font-size: 6px; font-weight: bold; line-height: 1; color: #1e3a8a; transform: translateY(-4px);">✍️ នាយកសាលា</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- BACK SIDE -->
+                      <div id="id-card-back" class="id-card-side" style="width: 337px; height: 212px; background: #ffffff; border-radius: 12px; border: 4px solid #1e40af; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; padding: 12px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; background-image: radial-gradient(rgba(30, 64, 175, 0.03) 1px, transparent 0); background-size: 10px 10px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 8px;">
+                          <span style="font-size: 10px; font-weight: bold; font-family: var(--font-khmer-muol) !important; color: #1e40af;">លក្ខខណ្ឌប្រើប្រាស់ប័ណ្ណ</span>
+                          <span style="font-size: 7.5px; color: var(--text-muted); font-family: var(--font-latin);">Terms and Regulations</span>
+                        </div>
+                        
+                        <ol style="font-size: 8px; color: #334155; margin-left: 14px; display: flex; flex-direction: column; gap: 4px; line-height: 1.4; flex: 1; justify-content: center; padding: 5px 0;">
+                          <li>១. ប័ណ្ណសម្គាល់ខ្លួននេះត្រូវតែពាក់រៀងរាល់ពេលចូលរៀនក្នុងវិទ្យាស្ថាន។</li>
+                          <li>២. មិនត្រូវកែសម្រួល ឬផ្ទេរប័ណ្ណនេះទៅឱ្យបុគ្គលដទៃប្រើប្រាស់ឡើយ។</li>
+                          <li>៣. ប្រសិនបើបាត់បង់ប័ណ្ណ សូមរាយការណ៍ជូនការិយាល័យរដ្ឋបាលជាបន្ទាន់។</li>
+                          <li>៤. អ្នករើសបានប័ណ្ណនេះ សូមមេត្តាប្រគល់ជូនសាលាវិញតាមរយៈលេខទូរស័ព្ទខាងក្រោម។</li>
+                        </ol>
+                        
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 6px; display: flex; justify-content: space-between; align-items: center; height: 35px;">
+                          <div style="font-size: 7px; color: var(--text-muted);">
+                            📞 <strong>ទំនាក់ទំនង៖</strong> 023 888 999<br>
+                            🌐 <strong>គេហទំព័រ៖</strong> www.ptec.edu.kh
+                          </div>
+                          
+                          <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                            <div style="background: repeating-linear-gradient(90deg, #000, #000 1px, #fff 1px, #fff 3px); width: 80px; height: 16px;"></div>
+                            <span style="font-size: 6px; font-family: var(--font-latin); letter-spacing: 1px;" id="card-preview-barcode-number">*PTEC001*</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.12 View: Database Backup & Restore -->
+            <section id="view-backup" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">💾 ប្រព័ន្ធគ្រប់គ្រងទិន្នន័យបម្រុងទុក (Database Backup & Restore)</h3>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+                  <!-- Backup Actions -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600;">💾 បង្កើតទិន្នន័យបម្រុងទុកបច្ចុប្បន្ន</h4>
+                    <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">
+                      ការចុចប៊ូតុងខាងក្រោមនឹងបង្កើតចម្លងឯកសារទិន្នន័យបច្ចុប្បន្នទាំងអស់ រួមទាំងបញ្ជីសិស្ស វត្តមាន និងពិន្ទុ ទៅជាឯកសារ JSON តែមួយ រក្សាទុកក្នុង Drive D ដោយស្វ័យប្រវត្តិ។
+                    </p>
+                    <button class="btn-action-primary" onclick="performManualBackup()" style="width: 100%; padding: 12px; font-size: 14px; font-weight: 600;">💾 បង្កើតទិន្នន័យបម្រុង (Backup Now)</button>
+                    
+                    <hr style="margin: 24px 0; border: 0; border-top: 1px solid var(--border-color);">
+                    
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600;">📥 ស្តារទិន្នន័យពីកុំព្យូទ័រ (Restore from Backup File)</h4>
+                    <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+                      ជ្រើសរើសឯកសារទិន្នន័យបម្រុងទុក (ឯកសារ .json) ពីកុំព្យូទ័ររបស់អ្នក ដើម្បីស្តារទិន្នន័យក្នុងប្រព័ន្ធឡើងវិញ ១០០%។
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                      <input type="file" id="restore-file-input" accept=".json" style="width: 100%; padding: 8px; border: 1px dashed var(--border-color); border-radius: 8px;">
+                      <button class="btn-google-login" onclick="restoreFromUploadedFile()" style="width: 100%; padding: 12px; font-weight: 600; margin:0;">📥 ផ្ទុក និងស្តារទិន្នន័យឡើងវិញ</button>
+                    </div>
+                  </div>
+                  
+                  <!-- Local Backups List -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600;">📁 បញ្ជីឯកសារបម្រុងទុកក្នុងម៉ាស៊ីន</h4>
+                    <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
+                      បញ្ជីខាងក្រោមជាឯកសារបម្រុងទុកដែលរក្សាទុកក្នុង Folder ទិន្នន័យបម្រុង។ អ្នកអាចចុចប៊ូតុង "ស្តារឡើងវិញ" ដើម្បីយកទិន្នន័យខណៈពេលនោះមកប្រើប្រាស់ភ្លាមៗ។
+                    </p>
+                    <div style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px;">
+                      <table class="data-table" style="font-size: 12px;">
+                        <thead>
+                          <tr>
+                            <th>ឈ្មោះឯកសារ</th>
+                            <th>កាលបរិច្ឆេទបង្កើត</th>
+                            <th style="width: 100px; text-align: center;">សកម្មភាព</th>
+                          </tr>
+                        </thead>
+                        <tbody id="backups-list-table-body">
+                          <!-- Loaded dynamically from app.js -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.13 View: AI Teacher Assistant -->
+            <section id="view-ai-assistant" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">🤖 ជំនួយការគ្រូបង្រៀន AI (AI Teacher Assistant)</h3>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 280px 1fr; gap: 28px;">
+                  <!-- Prompts Sidebar -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none; display: flex; flex-direction: column; gap: 14px;">
+                    <h4 style="font-size: 14px; font-weight: bold; color: #1e3a8a;">📝 ការងារគ្រូបង្រៀន AI</h4>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('lesson_plan')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">📝 រៀបចំកិច្ចតែងការ (Lesson Plan)</button>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('worksheet')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">📄 សន្លឹកកិច្ចការ (Worksheet)</button>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('quiz')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">❓ ល្បងពុទ្ធិ/កម្រងសំណួរ (Quiz)</button>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('powerpoint')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">💻 ស្លាយបង្រៀន (PowerPoint)</button>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('homework')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">📚 កិច្ចការផ្ទះ (Homework)</button>
+                    <button class="btn-google-login" onclick="triggerAIGenerate('exit_ticket')" style="width: 100%; justify-content: flex-start; margin: 0; padding: 10px 14px; font-size: 13px;">🎟️ វាយតម្លៃចុងម៉ោង (Exit Ticket)</button>
+                  </div>
+                  
+                  <!-- Main Generation Area -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none; display: flex; flex-direction: column; gap: 16px;">
+                    <div class="form-group">
+                      <label style="font-weight: 600;">✍️ បញ្ចូលប្រធានបទ ឬចំណងជើងមេរៀនដែលចង់ឱ្យ AI បង្កើត</label>
+                      <div style="display: flex; gap: 10px;">
+                        <input type="text" id="ai-prompt-input" placeholder="ឧ. បង្កើតផែនការបង្រៀន ICT ថ្នាក់ទី១០ រយៈពេល៤០នាទី..." style="flex: 1; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        <button class="btn-action-primary" onclick="generateAIContent()" style="padding: 0 24px;">🤖 បង្កើតភ្លាមៗ</button>
+                      </div>
+                    </div>
+                    
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                      <label style="font-weight: 600;">✨ លទ្ធផលដែលបង្កើតដោយ AI (AI Generated Content)</label>
+                      <div id="ai-output-box" style="flex: 1; min-height: 300px; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-muted); overflow-y: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; white-space: pre-wrap; line-height: 1.5; color: var(--text-main);">
+លទ្ធផលដែលបង្កើតឡើងដោយ AI ជំនួយការគ្រូ នឹងបង្ហាញនៅទីនេះ...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.14 View: Principal Inspection Mode -->
+            <section id="view-inspection" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">🔍 របៀបចុះពិនិត្យថ្នាក់រៀន (Classroom Inspection Mode)</h3>
+                </div>
+                
+                <div class="view-actions-bar" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; gap: 10px; align-items: center;">
+                    <label style="font-weight: bold;">🏫 ជ្រើសរើសថ្នាក់ចុះពិនិត្យ៖</label>
+                    <select id="inspection-class-select" onchange="loadInspectionDetails(this.value)" style="padding: 8px 16px; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                      <option value="12a" selected>ថ្នាក់ទី ១២A (គឹម ហេង)</option>
+                      <option value="11b">ថ្នាក់ទី ១១B (ចាន់ ណារ៉េត)</option>
+                      <option value="10c">ថ្នាក់ទី ១០C (សុខ ជា)</option>
+                    </select>
+                  </div>
+                  <span style="font-size: 13px; color: var(--success-color); font-weight: bold; background: rgba(16,185,129,0.1); padding: 6px 12px; border-radius: 20px;">🟢 កំពុងដំណើរការបង្រៀន</span>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                  <!-- Lesson Plan -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600; color: #1e3a8a;">📝 ផែនការមេរៀនសកម្ម (Active Lesson Plan)</h4>
+                    <div style="background: var(--bg-muted); padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; border: 1px solid var(--border-color);">
+                      <strong>មុខវិជ្ជា៖</strong> គណិតវិទ្យា (ថ្នាក់ទី១២A)<br>
+                      <strong>ប្រធានបទ៖</strong> អាំងតេក្រាលមិនកំណត់ (Indefinite Integrals)<br>
+                      <strong>គោលបំណង៖</strong> សិស្សអាចយល់ដឹង និងដោះស្រាយលំហាត់គណនាអាំងតេក្រាលជាមូលដ្ឋានបាន។<br>
+                      <strong>សកម្មភាពបង្រៀន៖</strong>
+                      <ol style="margin-left: 20px; margin-top: 6px;">
+                        <li>១. រំលឹកមេរៀនមុនស្តីពីដេរីវេ (៥នាទី)</li>
+                        <li>២. ពន្យល់ទ្រឹស្តីបទ និងរូបមន្តអាំងតេក្រាល (១៥នាទី)</li>
+                        <li>៣. ឱ្យសិស្សធ្វើលំហាត់គំរូជាក្រុម (១៥នាទី)</li>
+                        <li>៤. exit ticket សន្លឹកវាយតម្លៃចុងម៉ោង (៥នាទី)</li>
+                      </ol>
+                    </div>
+                  </div>
+                  
+                  <!-- Student Progress -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600; color: #1e3a8a;">📊 សកម្មភាព និងវឌ្ឍនភាពសិស្សក្នុងថ្នាក់</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                        <span>វត្តមានសិស្សថ្ងៃនេះ៖</span>
+                        <strong style="color: var(--success-color);">៣០ / ៣២ នាក់ (៩៣.៧%)</strong>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                        <span>អវត្តមានគ្មានច្បាប់៖</span>
+                        <strong style="color: var(--danger-color);">២ នាក់ (PTEC006, PTEC014)</strong>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                        <span>ពិន្ទុឥរិយាបថថ្នាក់រៀន៖</span>
+                        <strong style="color: var(--success-color);">៩២.៥ / ១០០ (ល្អណាស់)</strong>
+                      </div>
+                      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                        <span>អត្រាបញ្ចប់កិច្ចការផ្ទះ៖</span>
+                        <strong style="color: var(--warning-color);">៨៨% (ខ្វះ ៤នាក់)</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.15 View: School KPI Dashboard -->
+            <section id="view-kpi" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">🏫 ផ្ទាំងសូចនាករគន្លឹះសាលារៀន (School KPI Dashboard)</h3>
+                </div>
+                
+                <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px;">
+                  <div class="stat-card" style="padding: 16px;">
+                    <span class="stat-label">វត្តមានសិស្សទូទាំងសាលា</span>
+                    <h3 style="font-size: 24px; font-weight: bold; color: var(--success-color);">៩៤.៨%</h3>
+                    <span class="stat-diff trend-up">↑ ០.៥% សប្តាហ៍នេះ</span>
+                  </div>
+                  <div class="stat-card" style="padding: 16px;">
+                    <span class="stat-label">វត្តមានលោកគ្រូ-អ្នកគ្រូ</span>
+                    <h3 style="font-size: 24px; font-weight: bold; color: var(--primary-color);">៩៨.២%</h3>
+                    <span class="stat-diff trend-up">↑ ០.២% ពីខែមុន</span>
+                  </div>
+                  <div class="stat-card" style="padding: 16px;">
+                    <span class="stat-label">ពិន្ទុឥរិយាបថរួម (Behavior Index)</span>
+                    <h3 style="font-size: 24px; font-weight: bold; color: var(--secondary-color);">៨៩.៤ / ១០០</h3>
+                    <span class="stat-diff text-muted">កម្រិត ល្អប្រសើរ</span>
+                  </div>
+                  <div class="stat-card" style="padding: 16px;">
+                    <span class="stat-label">សិស្សមានហានិភ័យខ្ពស់ (Risk Score)</span>
+                    <h3 style="font-size: 24px; font-weight: bold; color: var(--danger-color);">៤ នាក់</h3>
+                    <span class="stat-diff trend-down">↓ ២ នាក់ ធៀបនឹងឆមាសមុន</span>
+                  </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600; color: #1e3a8a;">🏆 ថ្នាក់រៀនឆ្នើមជាងគេ (Top Performing Classes)</h4>
+                    <table class="data-table" style="font-size: 13px;">
+                      <thead>
+                        <tr>
+                          <th>លំដាប់</th>
+                          <th>ថ្នាក់រៀន</th>
+                          <th>វត្តមានមធ្យម</th>
+                          <th>ពិន្ទុឥរិយាបថ</th>
+                          <th>មធ្យមភាគពិន្ទុ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>ថ្នាក់ទី១២A</td>
+                          <td>៩៦.៨%</td>
+                          <td>៩៥.០</td>
+                          <td>៧៨.៥</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>ថ្នាក់ទី១១B</td>
+                          <td>៩៥.២%</td>
+                          <td>៩២.០</td>
+                          <td>៩៦.០</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>ថ្នាក់ទី១០A</td>
+                          <td>៩៤.៥%</td>
+                          <td>៩០.៥</td>
+                          <td>៧៤.៨</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600; color: #1e3a8a;">⚠️ ថ្នាក់រៀនត្រូវជួយដោះស្រាយ (Classes Requiring Attention)</h4>
+                    <table class="data-table" style="font-size: 13px;">
+                      <thead>
+                        <tr>
+                          <th>លំដាប់</th>
+                          <th>ថ្នាក់រៀន</th>
+                          <th>វត្តមានមធ្យម</th>
+                          <th>ពិន្ទុឥរិយាបថ</th>
+                          <th>មធ្យមភាគពិន្ទុ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>ថ្នាក់ទី៩B</td>
+                          <td>៨៩.០%</td>
+                          <td>៧៨.០</td>
+                          <td>៦២.៤</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>ថ្នាក់ទី៨C</td>
+                          <td>៩០.២%</td>
+                          <td>៨០.៥</td>
+                          <td>៦៤.៥</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>ថ្នាក់ទី៧A</td>
+                          <td>៩១.០%</td>
+                          <td>៨២.០</td>
+                          <td>៦៥.៨</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2.16 View: Parent Communication Center -->
+            <section id="view-parent-comm" class="sub-view">
+              <div class="panel-card" style="padding: 28px;">
+                <div class="panel-header" style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 18px; font-weight: 700; color: #1e3a8a;">💬 ប្រព័ន្ធទំនាក់ទំនងអាណាព្យាបាល (Parent Communication Center)</h3>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 320px 1fr; gap: 28px;">
+                  <!-- Student List -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none;">
+                    <h4 style="margin-bottom: 14px; font-size: 15px; font-weight: 600;">👥 ជ្រើសរើសសិស្សដើម្បីទាក់ទង</h4>
+                    <div style="max-height: 350px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;" id="parent-comm-students-list">
+                      <!-- Populated dynamically -->
+                    </div>
+                  </div>
+                  
+                  <!-- Message Composer -->
+                  <div class="panel-card" style="padding: 20px; border: 1px solid var(--border-color); box-shadow: none; display: flex; flex-direction: column; gap: 16px;">
+                    <h4 style="font-size: 15px; font-weight: 600;" id="comm-target-header">ទំនាក់ទំនងទៅកាន់អាណាព្យាបាលសិស្ស៖ សុខ ដារ៉ា</h4>
+                    
+                    <div class="form-group">
+                      <label style="font-weight: 600;">📱 លេខទូរស័ព្ទអាណាព្យាបាល៖</label>
+                      <input type="text" id="comm-parent-phone" value="012 345 678" style="width: 100%; padding: 10px; border: 1.5px solid var(--border-color); border-radius: 8px;" readonly disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label style="font-weight: 600;">🤖 ជំនួយការ AI សរសេរសារស្វ័យប្រវត្ត (ភាសាខ្មែរ)៖</label>
+                      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn-google-login" onclick="generateCommMessage('late')" style="margin:0; padding: 8px 12px; font-size: 12px;">⏰ សិស្សមកយឺត</button>
+                        <button class="btn-google-login" onclick="generateCommMessage('absent')" style="margin:0; padding: 8px 12px; font-size: 12px;">❌ សិស្សអវត្តមាន</button>
+                        <button class="btn-google-login" onclick="generateCommMessage('behavior_down')" style="margin:0; padding: 8px 12px; font-size: 12px;">⚠️ ឥរិយាបថធ្លាក់ចុះ</button>
+                        <button class="btn-google-login" onclick="generateCommMessage('meeting_invite')" style="margin:0; padding: 8px 12px; font-size: 12px;">📅 លិខិតអញ្ជើញប្រជុំ</button>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label style="font-weight: 600;">📝 ខ្លឹមសារសារ៖</label>
+                      <textarea id="comm-message-text" rows="6" style="width: 100%; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px; font-family: var(--font-khmer); line-height: 1.5; resize: none;">សូមជម្រាបសួរលោក/លោកស្រីអាណាព្យាបាលសិស្ស...</textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                      <button class="btn-action-primary" onclick="sendCommTelegram()" style="flex: 1; padding: 12px;">✈️ ផ្ញើទៅកាន់ Telegram</button>
+                      <button class="btn-google-login" onclick="sendCommEmail()" style="flex: 1; padding: 12px; margin: 0;">📧 ផ្ញើតាម Email/SMS</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- 2.10 Add Subject Modal inside Class View -->
+            <div id="add-subject-modal" class="modal-overlay">
+              <div class="modal-card">
+                <div class="modal-header">
+                  <h3>បន្ថែមមុខវិជ្ជាថ្មី</h3>
+                  <button class="btn-close-modal" onclick="closeModal('add-subject-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="new-subject-modal-input">ឈ្មោះមុខវិជ្ជា (Subject Name)</label>
+                    <input type="text" id="new-subject-modal-input" placeholder="ឧ. គីមីវិទ្យា, ប្រវត្តិវិទ្យា...">
+                  </div>
+                  <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal('add-subject-modal')">បោះបង់</button>
+                    <button type="button" class="btn-submit" onclick="submitNewSubjectModal()">បន្ថែម</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </main>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  
+  <!-- ==================== MODALS ==================== -->
+  
+  <!-- 1. Forgot Password Modal -->
+  <div id="forgot-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>ភ្លេចពាក្យសម្ងាត់?</h3>
+        <button class="btn-close-modal" onclick="closeModal('forgot-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលរបស់អ្នកដើម្បីទទួលបានតំណភ្ជាប់កំណត់ពាក្យសម្ងាត់ឡើងវិញ។</p>
+        <form id="form-forgot" onsubmit="handleForgotPassword(event)">
+          <div class="form-group">
+            <label for="forgot-email">អ៊ីមែល (Email)</label>
+            <input type="email" id="forgot-email" placeholder="name@ptec.edu.kh" required>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('forgot-modal')">បោះបង់</button>
+            <button type="submit" class="btn-submit">ផ្ញើតំណភ្ជាប់</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 2. Premium Plan Modal -->
+  <div id="premium-modal" class="modal-overlay">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h3 class="premium-modal-title">កញ្ចប់សេវាកម្ម KruSmart Premium 💎</h3>
+        <button class="btn-close-modal" onclick="closeModal('premium-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="premium-intro">បង្កើនប្រសិទ្ធភាពការងារបង្រៀនរបស់អ្នកកាន់តែរលូន និងទាក់ទាញជាមួយ KruSmart Premium</p>
+        
+        <div class="pricing-cards">
+          <!-- Free Plan -->
+          <div class="pricing-card">
+            <div class="plan-header">
+              <h4>កញ្ចប់ឥតគិតថ្លៃ (Free)</h4>
+              <div class="price">១០០% ឥតគិតថ្លៃ</div>
+            </div>
+            <ul class="plan-features">
+              <li>✓ គ្រប់គ្រងសិស្សបានត្រឹម ៣៥ នាក់</li>
+              <li>✓ កត់ត្រាវត្តមានសិស្សប្រចាំថ្ងៃ</li>
+              <li>✓ បញ្ចូលពិន្ទុមធ្យមភាគប្រចាំខែ</li>
+              <li>✗ គ្មានការនាំចេញរបាយការណ៍ជា PDF/Excel</li>
+              <li>✗ គ្មានមុខងារផ្ញើវត្តមានទៅកាន់អាណាព្យាបាល</li>
+              <li>✗ គ្មានជំនួយការគ្រូសិប្បនិម្មិត (AI Assistant)</li>
+            </ul>
+            <button class="btn-plan-select secondary" disabled>គណនីបច្ចុប្បន្ន</button>
+          </div>
+          
+          <!-- Premium Plan -->
+          <div class="pricing-card premium-highlight">
+            <div class="popular-badge">ពេញនិយមជាងគេ</div>
+            <div class="plan-header">
+              <h4>កញ្ចប់ពិសេស (Premium)</h4>
+              <div class="price">$៩.៩៩ <span>/ ខែ</span></div>
+            </div>
+            <ul class="plan-features">
+              <li>✓ គ្រប់គ្រងសិស្ស និងថ្នាក់រៀនមិនកំណត់</li>
+              <li>✓ នាំចេញរបាយការណ៍វត្តមាន និងពិន្ទុជា Excel/PDF</li>
+              <li>✓ ផ្ញើរបាយការណ៍វត្តមានស្វ័យប្រវត្តិតាម Telegram/SMS</li>
+              <li>✓ ជំនួយការគ្រូ AI Assistant ជួយរៀបចំកិច្ចតែងការ</li>
+              <li>✓ ផ្ទុកឯកសារមេរៀន និងកិច្ចការសិស្សមិនកំណត់</li>
+              <li>✓ គាំទ្រផ្នែកបច្ចេកទេសពិសេស ២៤/៧</li>
+            </ul>
+            <button class="btn-plan-select primary" onclick="startPremiumPurchase()">ជាវកញ្ចប់ Premium</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Add/Edit Student Modal -->
+  <div id="student-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="student-modal-title">បន្ថែមសិស្សថ្មី</h3>
+        <button class="btn-close-modal" onclick="closeModal('student-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-student" onsubmit="handleStudentSubmit(event)">
+          <input type="hidden" id="student-edit-id">
+          
+          <div class="form-group">
+            <label for="student-name">ឈ្មោះពេញសិស្ស (Student Name)</label>
+            <input type="text" id="student-name" placeholder="សុខ ដារ៉ា" required>
+          </div>
+          
+          <div class="form-row-two">
+            <div class="form-group">
+              <label for="student-id-input">លេខអត្តលេខ (Student ID)</label>
+              <input type="text" id="student-id-input" placeholder="PTEC001" required>
+            </div>
+            <div class="form-group">
+              <label for="student-gender">ភេទ (Gender)</label>
+              <select id="student-gender" required>
+                <option value="ប្រុស">ប្រុស (Male)</option>
+                <option value="ស្រី">ស្រី (Female)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="student-email">អ៊ីមែល (Email)</label>
+            <input type="email" id="student-email" placeholder="studentname@ptec.edu.kh">
+          </div>
+          
+          <div class="form-group">
+            <label for="student-phone">លេខទូរស័ព្ទអាណាព្យាបាល</label>
+            <input type="text" id="student-phone" placeholder="099 888 777" required>
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('student-modal')">បោះបង់</button>
+            <button type="submit" class="btn-submit" id="student-modal-submit-btn">រក្សាទុក</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Bulk/Single Grade Edit Modal -->
+  <div id="grade-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>កែសម្រួលពិន្ទុសិស្ស</h3>
+        <button class="btn-close-modal" onclick="closeModal('grade-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="grade-student-info">
+          <h4 id="grade-modal-student-name">ឈ្មោះ៖ គង់ វិច្ឆិកា</h4>
+          <p id="grade-modal-subject-month" class="text-muted">មុខវិជ្ជា៖ គណិតវិទ្យា | ខែ៖ ឧសភា</p>
+        </div>
+        <form id="form-grade-edit" onsubmit="handleGradeSubmit(event)">
+          <input type="hidden" id="grade-edit-student-id">
+          
+          <div class="form-group">
+            <label for="grade-t1">វត្តមាន និងកិច្ចការផ្ទះ (10%)</label>
+            <input type="number" id="grade-t1" min="0" max="10" step="0.5" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="grade-t2">ការប្រឡងប្រចាំសប្តាហ៍ (20%)</label>
+            <input type="number" id="grade-t2" min="0" max="20" step="0.5" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="grade-final">ការប្រឡងប្រចាំខែ (70%)</label>
+            <input type="number" id="grade-final" min="0" max="70" step="0.5" required>
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('grade-modal')">បោះបង់</button>
+            <button type="submit" class="btn-submit">រក្សាទុកពិន្ទុ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Timetable Add Event Modal -->
+  <div id="timetable-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>បន្ថែមម៉ោងបង្រៀន</h3>
+        <button class="btn-close-modal" onclick="closeModal('timetable-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-timetable" onsubmit="handleTimetableSubmit(event)">
+          
+          <div class="form-group">
+            <label for="time-subject">មុខវិជ្ជា (Subject)</label>
+            <input type="text" id="time-subject" placeholder="ឧ. គណិតវិទ្យា" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="time-classroom">បន្ទប់សិក្សា (Classroom)</label>
+            <input type="text" id="time-classroom" placeholder="ឧ. បន្ទប់ ៣០៤" required>
+          </div>
+          
+          <div class="form-row-two">
+            <div class="form-group">
+              <label for="time-day">ថ្ងៃសិក្សា (Day)</label>
+              <select id="time-day" required>
+                <option value="Mon">ចន្ទ (Monday)</option>
+                <option value="Tue">អង្គារ (Tuesday)</option>
+                <option value="Wed">ពុធ (Wednesday)</option>
+                <option value="Thu">ព្រហស្បតិ៍ (Thursday)</option>
+                <option value="Fri">សុក្រ (Friday)</option>
+                <option value="Sat">សៅរ៍ (Saturday)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="time-slot">ម៉ោងសិក្សា (Time Slot)</label>
+              <select id="time-slot" required>
+                <option value="07:00 - 08:30">07:00 AM - 08:30 AM</option>
+                <option value="08:45 - 10:15">08:45 AM - 10:15 AM</option>
+                <option value="10:30 - 12:00">10:30 AM - 12:00 PM</option>
+                <option value="13:30 - 15:00">01:30 PM - 03:00 PM</option>
+                <option value="15:15 - 16:45">03:15 PM - 04:45 PM</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="closeModal('timetable-modal')">បោះបង់</button>
+            <button type="submit" class="btn-submit">បន្ថែម</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Apps Script Template Modal -->
+  <div id="apps-script-modal" class="modal-overlay">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h3>Google Apps Script Code Template</h3>
+        <button class="btn-close-modal" onclick="closeModal('apps-script-modal')">&times;</button>
+      </div>
+      <div class="modal-body" style="gap: 12px;">
+        <p>សូមចម្លងកូដខាងក្រោមនេះ យកទៅដាក់ក្នុង Google Apps Script Editor នៃ Google Sheet របស់អ្នក៖</p>
+        <textarea readonly style="width: 100%; height: 300px; font-family: 'Consolas', 'Courier New', monospace; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 12.5px; background: var(--bg-hover); color: var(--text-main); outline: none; resize: none;" id="apps-script-code-text">function doPost(e) {
+  var jsonString = e.postData.contents;
+  var payload = JSON.parse(jsonString);
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // 1. Sync Class Details
+  var configSheet = getOrCreateSheet(ss, "ព័ត៌មានថ្នាក់");
+  configSheet.clear();
+  configSheet.appendRow(["ឈ្មោះថ្នាក់", "ឆ្នាំសិក្សា", "សាលារៀន", "គ្រូបង្រៀន", "តួនាទី"]);
+  configSheet.appendRow([
+    payload.className || "",
+    payload.academicYear || "",
+    (payload.profile && payload.profile.school) || "",
+    (payload.profile && payload.profile.name) || "",
+    (payload.profile && payload.profile.role) || ""
+  ]);
+  
+  // 2. Sync Students List
+  var studentSheet = getOrCreateSheet(ss, "បញ្ជីឈ្មោះសិស្ស");
+  studentSheet.clear();
+  studentSheet.appendRow(["អត្តលេខ", "ឈ្មោះសិស្ស", "ភេទ", "អ៊ីមែល", "ទូរស័ព្ទអាណាព្យាបាល"]);
+  if (payload.students && payload.students.length > 0) {
+    payload.students.forEach(function(s) {
+      studentSheet.appendRow([s.id, s.name, s.gender, s.email || "", s.phone || ""]);
+    });
+  }
+  
+  // 3. Sync Timetable
+  var timetableSheet = getOrCreateSheet(ss, "កាលវិភាគសិក្សា");
+  timetableSheet.clear();
+  timetableSheet.appendRow(["ថ្ងៃ", "ម៉ោងសិក្សា", "មុខវិជ្ជា", "បន្ទប់"]);
+  if (payload.timetable && payload.timetable.length > 0) {
+    payload.timetable.forEach(function(t) {
+      timetableSheet.appendRow([t.day, t.slot, t.subject, t.room || ""]);
+    });
+  }
+
+  // 4. Sync Attendance
+  var attSheet = getOrCreateSheet(ss, "វត្តមានសិស្ស");
+  attSheet.clear();
+  attSheet.appendRow(["កាលបរិច្ឆេទ", "អត្តលេខ", "ឈ្មោះសិស្ស", "ស្ថានភាពវត្តមាន"]);
+  if (payload.attendance) {
+    var studentMap = {};
+    if (payload.students) {
+      payload.students.forEach(function(s) { studentMap[s.id] = s.name; });
+    }
+    Object.keys(payload.attendance).forEach(function(date) {
+      var log = payload.attendance[date];
+      Object.keys(log).forEach(function(sId) {
+        attSheet.appendRow([date, sId, studentMap[sId] || "", log[sId]]);
+      });
+    });
+  }
+
+  // 5. Sync Grades
+  var gradeSheet = getOrCreateSheet(ss, "ពិន្ទុសិស្ស");
+  gradeSheet.clear();
+  gradeSheet.appendRow(["កិច្ចការ/មុខវិជ្ជា", "អត្តលេខ", "ឈ្មោះសិស្ស", "ពិន្ទុ១", "ពិន្ទុ២", "ពិន្ទុចុងក្រោយ", "សរុប"]);
+  if (payload.grades) {
+    var studentMap = {};
+    if (payload.students) {
+      payload.students.forEach(function(s) { studentMap[s.id] = s.name; });
+    }
+    Object.keys(payload.grades).forEach(function(key) {
+      var records = payload.grades[key];
+      records.forEach(function(r) {
+        var total = (parseFloat(r.t1) || 0) + (parseFloat(r.t2) || 0) + (parseFloat(r.final) || 0);
+        gradeSheet.appendRow([key, r.studentId, studentMap[r.studentId] || "", r.t1, r.t2, r.final, total]);
+      });
+    });
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function getOrCreateSheet(ss, name) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+  }
+  return sheet;
+}</textarea>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeModal('apps-script-modal')">បិទផ្ទាំង</button>
+          <button type="button" class="btn-submit" onclick="copyAppsScriptCode()">ចម្លងកូដ (Copy)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

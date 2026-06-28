@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <!-- Definitions for gradients and shadows -->
+  <defs>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#FFB300" />
+      <stop offset="100%" stop-color="#FF8F00" />
+    </linearGradient>
+    <linearGradient id="blue-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="flame-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="50%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Ring (Gold) -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#gold-grad)" stroke-width="6" />
+  
+  <!-- Outer Ring Inner Thin Border -->
+  <circle cx="100" cy="100" r="88" fill="url(#blue-grad)" stroke="url(#gold-grad)" stroke-width="2" />
+  
+  <!-- Decorative Dots/Stars in Outer Ring -->
+  <!-- We can add a few decorative elements for Khmer styling -->
+  <g fill="url(#gold-grad)">
+    <circle cx="100" cy="22" r="3" />
+    <circle cx="100" cy="178" r="3" />
+    <circle cx="22" cy="100" r="3" />
+    <circle cx="178" cy="100" r="3" />
+    <circle cx="45" cy="45" r="2" />
+    <circle cx="155" cy="45" r="2" />
+    <circle cx="45" cy="155" r="2" />
+    <circle cx="155" cy="155" r="2" />
+  </g>
+
+  <!-- Inner Gold Circle boundary -->
+  <circle cx="100" cy="100" r="68" fill="#1E40AF" stroke="url(#gold-grad)" stroke-width="3" />
+
+  <!-- Lotus Throne / Pedestal (Traditional Khmer element) -->
+  <path d="M 60 145 C 80 160, 120 160, 140 145 C 130 140, 110 142, 100 142 C 90 142, 70 140, 60 145 Z" fill="url(#gold-grad)" />
+  <path d="M 70 148 C 85 158, 115 158, 130 148" fill="none" stroke="#B45309" stroke-width="1.5" />
+
+  <!-- Open Book (representing Education/College) -->
+  <g id="open-book" transform="translate(100, 110)">
+    <!-- Pages background (White) -->
+    <path d="M -45 -10 C -25 -25, -5 -15, 0 -8 C 5 -15, 25 -25, 45 -10 L 40 20 C 20 5, 5 10, 0 16 C -5 10, -20 5, -40 20 Z" fill="#FFFFFF" stroke="url(#gold-grad)" stroke-width="2" />
+    <!-- Pages lines/details -->
+    <path d="M -35 -5 C -20 -15, -5 -8, 0 -3" fill="none" stroke="#94A3B8" stroke-width="1" />
+    <path d="M -35 3 C -20 -7, -5 0, 0 5" fill="none" stroke="#94A3B8" stroke-width="1" />
+    <path d="M -35 11 C -20 1, -5 8, 0 13" fill="none" stroke="#94A3B8" stroke-width="1" />
+    
+    <path d="M 35 -5 C 20 -15, 5 -8, 0 -3" fill="none" stroke="#94A3B8" stroke-width="1" />
+    <path d="M 35 3 C 20 -7, 5 0, 0 5" fill="none" stroke="#94A3B8" stroke-width="1" />
+    <path d="M 35 11 C 20 1, 5 8, 0 13" fill="none" stroke="#94A3B8" stroke-width="1" />
+    
+    <!-- Spine of the book -->
+    <line x1="0" y1="-8" x2="0" y2="16" stroke="url(#gold-grad)" stroke-width="2.5" />
+  </g>
+
+  <!-- Candle/Torch (Wisdom/Light) -->
+  <g id="torch" transform="translate(100, 85)">
+    <!-- Stand/Holder -->
+    <path d="M -6 15 L 6 15 L 4 0 L -4 0 Z" fill="url(#gold-grad)" />
+    <!-- Candle stick -->
+    <rect x="-3" y="-20" width="6" height="20" fill="#F8FAFC" stroke="url(#gold-grad)" stroke-width="1" />
+    <!-- Wax drips -->
+    <path d="M -3 -15 C -2 -13, -1 -13, -1 -15 M 1 -10 C 2 -8, 3 -8, 3 -10" fill="none" stroke="url(#gold-grad)" stroke-width="1" />
+    <!-- Flame base wick -->
+    <line x1="0" y1="-20" x2="0" y2="-24" stroke="#1E293B" stroke-width="1.5" />
+    <!-- Flame (Glowing orange/yellow) -->
+    <path d="M 0 -24 C -8 -32, -5 -48, 0 -54 C 5 -48, 8 -32, 0 -24 Z" fill="url(#flame-grad)" filter="url(#glow)" />
+    <path d="M 0 -26 C -4 -32, -3 -42, 0 -46 C 3 -42, 4 -32, 0 -26 Z" fill="#FFE082" />
+  </g>
+
+  <!-- Khmer Ornamentation / Decorative Rays -->
+  <g stroke="url(#gold-grad)" stroke-width="1.5" fill="none">
+    <!-- Left ray -->
+    <path d="M 45 90 Q 30 90, 40 100 Q 30 110, 48 105" />
+    <!-- Right ray -->
+    <path d="M 155 90 Q 170 90, 160 100 Q 170 110, 152 105" />
+  </g>
+</svg>
