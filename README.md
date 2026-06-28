@@ -1,0 +1,1 @@
+# STSmini1
